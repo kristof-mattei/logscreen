@@ -2,7 +2,7 @@ import path from "path";
 
 import { codecovVitePlugin } from "@codecov/vite-plugin";
 import { type UserConfig, loadEnv } from "vite";
-import checker from "vite-plugin-checker";
+import { checker } from "vite-plugin-checker";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
             checker({ typescript: true }),
             codecovVitePlugin({
                 enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
-                bundleName: "magwords-front-end",
+                bundleName: "logscreen-front-end",
                 uploadToken: process.env.CODECOV_TOKEN,
             }),
         ],
@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => {
             preserveSymlinks: true,
         },
         test: {
-            globals: true,
+            globals: false,
             // environment: "jsdom",
             environmentOptions: {
                 // jsdom: {},

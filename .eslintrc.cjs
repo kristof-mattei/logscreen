@@ -1,4 +1,5 @@
 /** @type { import("eslint").Linter.Config } */
+
 const esLintConfig = {
     root: true,
     parser: "@typescript-eslint/parser",
@@ -7,16 +8,20 @@ const esLintConfig = {
             node: {
                 extensions: [".d.ts", ".ts"],
             },
-            typescript: {},
+            typescript: {
+                alwaysTryTypes: true,
+            },
         },
     },
     env: {
+        node: true,
         browser: true,
         es2022: true,
     },
     plugins: [
         "@typescript-eslint",
         "import",
+        "promise",
         "react",
         "react-refresh",
         "react-hook-form",
@@ -25,6 +30,7 @@ const esLintConfig = {
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "love",
+        "plugin:import/recommended",
         "plugin:react/jsx-runtime",
         "plugin:import/typescript",
         "plugin:react-hook-form/recommended",
@@ -46,7 +52,12 @@ const esLintConfig = {
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/consistent-type-assertions": "error",
         "@typescript-eslint/consistent-type-definitions": "error",
-        "@typescript-eslint/consistent-type-imports": "error",
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                fixStyle: "inline-type-imports",
+            },
+        ],
         "@typescript-eslint/no-extraneous-class": "error",
         "@typescript-eslint/explicit-function-return-type": "error",
         "@typescript-eslint/explicit-member-accessibility": ["error"],
@@ -115,10 +126,6 @@ const esLintConfig = {
         "@typescript-eslint/unbound-method": "error",
         "@typescript-eslint/unified-signatures": "error",
         "@typescript-eslint/explicit-module-boundary-types": "error",
-        "react-refresh/only-export-components": [
-            "warn",
-            { allowConstantExport: true },
-        ],
         "sort-imports": [
             "error",
             {
@@ -129,6 +136,7 @@ const esLintConfig = {
         "import/no-duplicates": "error",
         "import/no-unresolved": "error",
         "import/no-relative-packages": "error",
+        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
         eqeqeq: ["error", "always"],
         "no-fallthrough": "error",
         "no-return-await": "error",
