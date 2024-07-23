@@ -164,7 +164,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 [[package]]
 name = "color-eyre"
 version = "0.6.2"
-source = "git+https://github.com/kristof-mattei/eyre?branch=bump-backtrace-rs#254309ffa060ed4d80680adc895fae84cc9291a7"
+source = "git+https://github.com/eyre-rs/eyre?rev=2dc0688d33a487009e8bc3222cbab135261383b0#2dc0688d33a487009e8bc3222cbab135261383b0"
 dependencies = [
  "backtrace",
  "color-spantrace",
@@ -178,7 +178,7 @@ dependencies = [
 [[package]]
 name = "color-spantrace"
 version = "0.2.1"
-source = "git+https://github.com/kristof-mattei/eyre?branch=bump-backtrace-rs#254309ffa060ed4d80680adc895fae84cc9291a7"
+source = "git+https://github.com/eyre-rs/eyre?rev=2dc0688d33a487009e8bc3222cbab135261383b0#2dc0688d33a487009e8bc3222cbab135261383b0"
 dependencies = [
  "once_cell",
  "owo-colors",
