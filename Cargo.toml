@@ -61,7 +61,7 @@ tracing-error = "0.2.0"
 url = { version = "2.5.2", features = ["serde"] }
 socketioxide = { version = "0.14.0", features = ["tracing"] }
 serde = { version = "1.0.204", features = ["derive"] }
-serde_json = "1.0.120"
+serde_json = "1.0.121"
 backtrace = "0.3.73"
 reverse-proxy-service = { git = "https://github.com/manorom/reverse-proxy-service", rev = "fda8bf28b4c602bdcf5f941b584e3e4940a1491e", features = [
     "axum",
