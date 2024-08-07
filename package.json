@@ -83,7 +83,7 @@
     "semantic-release": "24.0.0",
     "semver": "7.6.3",
     "serialize-error": "11.0.3",
-    "tailwindcss": "3.4.7",
+    "tailwindcss": "3.4.8",
     "typescript": "5.5.4",
     "vite": "5.3.5",
     "vite-plugin-checker": "0.7.2",
