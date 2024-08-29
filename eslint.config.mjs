@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { fileURLToPath } from "node:url";
 
-import { fixupConfigRules } from "@eslint/compat";
+import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin-ts";
@@ -59,9 +59,9 @@ export default tseslint.config(
         },
         plugins: {
             "import-x": importPlugin,
-            react: reactPlugin,
-            "react-refresh": reactRefreshPlugin,
-            "react-hook-form": reactHookFormPlugin,
+            react: fixupPluginRules(reactPlugin),
+            "react-refresh": fixupPluginRules(reactRefreshPlugin),
+            "react-hook-form": fixupPluginRules(reactHookFormPlugin),
         },
         settings: {
             "import-x/resolver": {
