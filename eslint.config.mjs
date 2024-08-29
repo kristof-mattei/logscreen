@@ -12,6 +12,9 @@ import importPlugin from "eslint-plugin-import-x";
 import nPlugin from "eslint-plugin-n";
 import prettier from "eslint-plugin-prettier/recommended";
 import promise from "eslint-plugin-promise";
+import reactPlugin from "eslint-plugin-react";
+import reactHookFormPlugin from "eslint-plugin-react-hook-form";
+import reactRefreshPlugin from "eslint-plugin-react-refresh";
 
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
@@ -56,6 +59,9 @@ export default tseslint.config(
         },
         plugins: {
             "import-x": importPlugin,
+            react: reactPlugin,
+            "react-refresh": reactRefreshPlugin,
+            "react-hook-form": reactHookFormPlugin,
         },
         settings: {
             "import-x/resolver": {
