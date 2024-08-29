@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import { io } from "socket.io-client";
 
-import { LogViewer } from "@/components/logViewer";
-import { type ClientLogMessage } from "@/lib/clientLogMessage";
-import { type ServerLogMessage } from "@/lib/serverLogMessage";
+import { LogViewer } from "@/components/log-viewer";
+import type { ClientLogMessage } from "@/lib/client-log-message";
+import type { ServerLogMessage } from "@/lib/server-log-message";
 
 export const App: React.FC = () => {
     const [logs, setLogs] = useState<ClientLogMessage[]>([]);
@@ -63,8 +63,8 @@ export const App: React.FC = () => {
                     type="text"
                     placeholder="Search logs..."
                     value={searchTerm}
-                    onChange={(e) => {
-                        setSearchTerm(e.target.value);
+                    onChange={(event) => {
+                        setSearchTerm(event.target.value);
                     }}
                     className="p-2 border border-gray-300 text-gray-800 bg-white rounded w-1/4"
                 />
