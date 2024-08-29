@@ -1,29 +1,20 @@
 import type React from "react";
 import { useMemo, useState } from "react";
 
-import { ErrorBoundary } from "@/components/errorBoundary";
-import { type ClientLogMessage } from "@/lib/clientLogMessage";
+import { ErrorBoundary } from "@/components/error-boundary";
+import type { ClientLogMessage } from "@/lib/client-log-message";
 
-interface LogViewerProps {
+interface LogViewerProperties {
     logs: ClientLogMessage[];
     searchTerm: string;
 }
 
-export const LogViewer: React.FC<LogViewerProps> = ({
-    logs: rawLogs,
-    searchTerm,
-}) => {
+export const LogViewer: React.FC<LogViewerProperties> = ({ logs: rawLogs, searchTerm }) => {
     const MAX_CHARACTERS = 500; // Maximum characters to display for each log message
 
-    const [selectedLog, setSelectedLog] = useState<ClientLogMessage | null>(
-        null,
-    );
+    const [selectedLog, setSelectedLog] = useState<ClientLogMessage | null>(null);
 
     const logs = useMemo(() => {
-        if (!rawLogs) {
-            return [];
-        }
-
         if (searchTerm === "") {
             return rawLogs;
         }
@@ -35,9 +26,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({
 
     const truncateMessage = useMemo(() => {
         return (message: string) => {
-            return message.length > MAX_CHARACTERS
-                ? `${message.slice(0, MAX_CHARACTERS)}...`
-                : message;
+            return message.length > MAX_CHARACTERS ? `${message.slice(0, MAX_CHARACTERS)}...` : message;
         };
     }, [MAX_CHARACTERS]);
 
@@ -61,9 +50,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({
                             }}
                         >
                             <div className="w-1/4 pr-4">
-                                <span className="text-gray-500">
-                                    {log.timestamp.toLocaleString()}
-                                </span>
+                                <span className="text-gray-500">{log.timestamp.toLocaleString()}</span>
                             </div>
                             <div className="w-3/4">
                                 <pre className="text-gray-700 whitespace-pre-wrap break-all">
@@ -75,37 +62,26 @@ export const LogViewer: React.FC<LogViewerProps> = ({
                 );
             })}
 
-            {selectedLog && (
+            {selectedLog !== null && (
                 <div className="fixed top-0 right-0 bottom-0 bg-white w-1/2 p-4 overflow-hidden shadow-lg">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">Full Log</h2>
                         <div>
-                            <button
-                                className="text-blue-500"
-                                onClick={closeFullLog}
-                            >
+                            <button className="text-blue-500" onClick={closeFullLog}>
                                 Close
                             </button>
                             <button
                                 className="bg-blue-500 text-white py-2 px-4 ml-2"
                                 onClick={() => {
                                     navigator.clipboard
-                                        .writeText(
-                                            JSON.stringify(
-                                                selectedLog.message,
-                                                null,
-                                                2,
-                                            ),
-                                        )
+                                        .writeText(JSON.stringify(selectedLog.message, null, 2))
                                         .then(() => {
                                             alert("Copied to clipboard!");
                                         })
-                                        .catch((reason: unknown) => {
-                                            console.error(reason);
+                                        .catch((error: unknown) => {
+                                            console.error(error);
 
-                                            alert(
-                                                "Failure to copy to clipboard, check console for error.",
-                                            );
+                                            alert("Failure to copy to clipboard, check console for error.");
                                         });
                                 }}
                             >
