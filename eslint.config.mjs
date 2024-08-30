@@ -49,6 +49,7 @@ export default tseslint.config(
     {
         // ignore: ["index.js"],
         languageOptions: {
+            ...reactPlugin.configs.flat["jsx-runtime"].languageOptions,
             parser: tsParser,
             parserOptions: {
                 ecmaVersion: "latest",
@@ -57,10 +58,10 @@ export default tseslint.config(
                 tsconfigRootDir: import.meta.dirname,
             },
         },
+        ...reactPlugin.configs.flat["jsx-runtime"],
         plugins: {
             "import-x": importPlugin,
-            react: fixupPluginRules(reactPlugin),
-            "react-refresh": fixupPluginRules(reactRefreshPlugin),
+            "react-refresh": reactRefreshPlugin,
             "react-hook-form": fixupPluginRules(reactHookFormPlugin),
         },
         settings: {
@@ -72,10 +73,17 @@ export default tseslint.config(
                     alwaysTryTypes: true,
                 },
             },
+            react: {
+                version: "detect",
+            },
         },
         rules: {
             ...importPlugin.configs.recommended.rules,
             ...eslintPluginUnicorn.configs.recommended.rules,
+
+            ...reactHookFormPlugin.configs.recommended.rules,
+
+            "react-refresh/only-export-components": "error",
 
             "import-x/export": ["error"],
             "import-x/first": ["error"],
