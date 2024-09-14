@@ -88,7 +88,7 @@
     "globals": "15.9.0",
     "husky": "9.1.6",
     "nock": "13.5.5",
-    "postcss": "8.4.45",
+    "postcss": "8.4.47",
     "prettier": "3.3.3",
     "sass": "1.78.0",
     "semantic-release": "24.1.1",
