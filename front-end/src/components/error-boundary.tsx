@@ -1,7 +1,7 @@
 import React from "react";
 import type { ErrorInfo, PropsWithChildren, ReactNode } from "react";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ErrorBoundaryProperties {}
 
 interface ErrorBoundaryState {
