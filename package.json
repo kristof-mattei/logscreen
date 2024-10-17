@@ -91,7 +91,7 @@
     "nock": "13.5.5",
     "postcss": "8.4.47",
     "prettier": "3.3.3",
-    "sass": "1.79.6",
+    "sass": "1.80.1",
     "semantic-release": "24.1.2",
     "semver": "7.6.3",
     "serialize-error": "11.0.3",
