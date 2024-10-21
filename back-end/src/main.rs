@@ -84,7 +84,7 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
                     "message": message
                 });
 
-                if let Err(err) = word_socket.get_socket().emit("input", json) {
+                if let Err(err) = word_socket.get_socket().emit("input", &json) {
                     event!(Level::ERROR, ?err, "Failed to send line");
                 }
             }
