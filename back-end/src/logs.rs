@@ -18,7 +18,7 @@ impl LogsSocket {
 
 impl Drop for LogsSocket {
     fn drop(&mut self) {
-        if let Err(err) = self.io.emit("goodbye", json!({})) {
+        if let Err(err) = self.io.emit("goodbye", &json!({})) {
             event!(Level::ERROR, ?err, "Failed to announce shutting down");
         }
     }
