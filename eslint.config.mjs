@@ -244,6 +244,7 @@ export default tseslint.config(
                 },
             ],
             "@typescript-eslint/parameter-properties": ["error"],
+            "@typescript-eslint/prefer-destructuring": ["off"],
             "@typescript-eslint/prefer-for-of": ["error"],
 
             "@typescript-eslint/prefer-regexp-exec": ["warn"],
