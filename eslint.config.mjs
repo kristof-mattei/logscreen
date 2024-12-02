@@ -1,4 +1,3 @@
-import { fixupPluginRules } from "@eslint/compat";
 import js from "@eslint/js";
 import stylistic from "@stylistic/eslint-plugin-ts";
 import tsParser from "@typescript-eslint/parser";
@@ -103,7 +102,7 @@ export default tseslint.config(
         plugins: {
             import: importPlugin,
             "react-refresh": reactRefreshPlugin,
-            "react-hook-form": fixupPluginRules(reactHookFormPlugin),
+            "react-hook-form": reactHookFormPlugin,
         },
         settings: {
             "import/resolver": {
@@ -118,10 +117,10 @@ export default tseslint.config(
                 version: "detect",
             },
         },
+        extends: [eslintPluginUnicorn.configs["flat/recommended"]],
         rules: {
             ...importPlugin.configs.recommended.rules,
-            ...eslintPluginUnicorn.configs.recommended.rules,
-
+            ...importPlugin.configs.react.rules,
             ...reactHookFormPlugin.configs.recommended.rules,
 
             "react-refresh/only-export-components": "error",
@@ -129,9 +128,6 @@ export default tseslint.config(
             ...sharedRules,
         },
     },
-    ...tseslint.configs.strictTypeChecked,
-    ...tseslint.configs.recommendedTypeChecked,
-    ...tseslint.configs.stylisticTypeChecked,
     {
         files: ["**/*.ts", "**/*.tsx"],
         ignores: ["**/*.mjs"],
@@ -153,6 +149,12 @@ export default tseslint.config(
             promise,
             perfectionist,
         },
+        extends: [
+            ...tseslint.configs.strictTypeChecked,
+            ...tseslint.configs.recommendedTypeChecked,
+            ...tseslint.configs.stylisticTypeChecked,
+            love,
+        ],
         settings: {
             "import/resolver": {
                 node: {
@@ -165,7 +167,9 @@ export default tseslint.config(
         },
         rules: {
             ...importPlugin.configs.typescript.rules,
-            ...love.rules,
+            ...importPlugin.configs.react.rules,
+            ...importPlugin.configs.recommended.rules,
+
             ...sharedRules,
 
             "no-return-await": ["off"],
