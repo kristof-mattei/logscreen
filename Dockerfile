@@ -10,13 +10,19 @@ RUN rm -f /etc/apt/apt.conf.d/docker-clean \
 
 # borrowed (Ba Dum Tss!) from
 # https://github.com/pablodeymo/rust-musl-builder/blob/7a7ea3e909b1ef00c177d9eeac32d8c9d7d6a08c/Dockerfile#L48-L49
-RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt \
-    dpkg --add-architecture arm64 && \
+RUN --mount=type=cache,id=apt-cache-amd64,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-amd64,target=/var/lib/apt,sharing=locked \
     apt-get update && \
     apt-get --no-install-recommends install -y \
     build-essential \
     musl-dev \
-    musl-tools \
+    musl-tools
+
+RUN --mount=type=cache,id=apt-cache-arm64,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-arm64,target=/var/lib/apt,sharing=locked \
+    dpkg --add-architecture arm64 && \
+    apt-get update && \
+    apt-get --no-install-recommends install -y \
     libc6-dev-arm64-cross \
     gcc-aarch64-linux-gnu
 
@@ -34,9 +40,9 @@ COPY Cargo.toml Cargo.lock ./
 RUN mkdir -p back-end/src && mv src/main.rs back-end/src/main.rs
 
 RUN --mount=type=cache,id=cargo-dependencies,target=/build/${APPLICATION_NAME}/target \
+    --mount=type=cache,target=/usr/local/cargo/git/db \
+    --mount=type=cache,target=/usr/local/cargo/registry/ \
     cargo build --release --target ${TARGET}
-
-# TODO build JS
 
 # now we copy in the source which is more prone to changes and build it
 COPY . .
