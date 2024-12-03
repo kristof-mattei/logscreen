@@ -3,7 +3,7 @@ name = "logscreen"
 # don't change this, it's updated before an actual build by update-version.sh
 version = "0.0.0-development"
 edition = "2021"
-rust-version = "1.82.0"
+rust-version = "1.83.0"
 authors = ["Kristof Mattei"]
 description = "logscreen in Rust"
 license-file = "LICENSE"
@@ -37,7 +37,8 @@ name = "logscreen"
 path = "back-end/tests/integration_tests.rs"
 
 [features]
-coverage = []
+default = []
+console-subscriber = ["dep:console-subscriber"]
 
 [dependencies]
 axum = { version = "0.7.9" }
@@ -52,7 +53,7 @@ tokio = { version = "1.42.0", features = [
     "signal",
     "time",
 ] }
-tokio-util = "0.7.13"
+tokio-util = { version = "0.7.13", features = ["rt"] }
 tower = "0.5.2"
 tower-http = { version = "0.6.2", features = ["cors", "fs", "trace"] }
 tracing = "0.1.41"
@@ -66,10 +67,7 @@ backtrace = "0.3.74"
 reverse-proxy-service = { git = "https://github.com/manorom/reverse-proxy-service", rev = "fda8bf28b4c602bdcf5f941b584e3e4940a1491e", features = [
     "axum",
 ] }
-# console-subscriber = "0.2.0"
-# dotenvy = "0.15.7"
-# axum-csp = "0.0.7"
-# thiserror = "1.0.37"
+console-subscriber = { version = "0.4.1", optional = true }
 
 # [dev-dependencies]
 # stubr = "0.6.2"
@@ -78,5 +76,5 @@ reverse-proxy-service = { git = "https://github.com/manorom/reverse-proxy-servic
 # BUT that means that we need to include openssl
 # Documentation on the syntax:
 # https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#platform-specific-dependencies
-[target.'cfg(all(target_arch = "x86_64", target_os="linux", target_env="musl"))'.dependencies]
+[target.'cfg(all(any(target_arch="x86_64", target_arch="aarch64"), target_os="linux", target_env="musl"))'.dependencies]
 openssl = { version = "0.10.68", features = ["vendored"] }

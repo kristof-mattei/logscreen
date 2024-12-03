@@ -13,7 +13,7 @@ impl FromRef<ApplicationState> for Arc<Config> {
 }
 
 #[derive(Clone)]
-#[allow(clippy::module_name_repetitions)]
+#[expect(clippy::module_name_repetitions)]
 pub struct ApplicationState {
     config: Arc<Config>,
 }

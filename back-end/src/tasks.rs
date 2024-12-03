@@ -1,44 +1,33 @@
-use tokio::io::{stdin, AsyncBufReadExt};
 use tokio::sync::mpsc::Sender;
-use tokio::task::JoinHandle;
 use tokio_util::sync::CancellationToken;
 use tracing::{event, Level};
 
-pub(crate) fn monitor_stdin(sender: Sender<String>, token: CancellationToken) -> JoinHandle<()> {
-    tokio::spawn(async move {
-        let _guard = token.clone().drop_guard();
+#[expect(clippy::needless_pass_by_value)]
+pub(crate) fn monitor_stdin(sender: Sender<String>, token: CancellationToken) {
+    let _guard = token.clone().drop_guard();
 
-        let server = tokio::io::BufReader::new(stdin());
+    let stdin = std::io::stdin();
 
-        let mut lines = server.lines();
+    loop {
+        let mut buffer = String::new();
 
-        loop {
-            let message = tokio::select! {
-                () = token.cancelled() => {
-                    // The token was cancelled
+        match stdin.read_line(&mut buffer) {
+            Ok(_) => {
+                if let Err(err) = sender.blocking_send(buffer.clone()) {
+                    event!(
+                        Level::ERROR,
+                        ?err,
+                        "Failed to send message to mpsc, stopping..."
+                    );
                     break;
-                },
-                result = lines.next_line() => match result {
-                    Ok(Some(message)) => message,
-                    Ok(None) => {
-                        event!(Level::INFO, "Stdin is closed");
-                        break;
-                    },
-                    Err(err) => {
-                        event!(Level::ERROR, ?err, "Failure to read from stdin");
-                        break;
-                    }
                 }
-            };
 
-            if let Err(err) = sender.send(message).await {
-                event!(
-                    Level::ERROR,
-                    ?err,
-                    "Failed to send message to mpsc, stopping..."
-                );
+                buffer.clear();
+            },
+            Err(err) => {
+                event!(Level::ERROR, ?err, "Failure to read from stdin");
                 break;
-            }
+            },
         }
-    })
+    }
 }

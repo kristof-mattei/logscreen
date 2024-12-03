@@ -15,7 +15,7 @@ use self::api_router::build_api_router;
 use self::html_router::build_html_router;
 use crate::state::ApplicationState;
 
-// #[allow(clippy::unused_async)]
+// #[expect(clippy::unused_async)]
 // async fn handler_404() -> impl IntoResponse {
 //     (StatusCode::NOT_FOUND, "nothing to see here")
 // }
@@ -24,7 +24,7 @@ async fn healthz() -> impl IntoResponse {
     (StatusCode::OK, "Hello, world!")
 }
 
-// #[allow(clippy::unused_async)]
+// #[expect(clippy::unused_async)]
 // async fn root() -> impl IntoResponse {
 //     (
 //         StatusCode::OK,
