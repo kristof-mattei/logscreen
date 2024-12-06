@@ -34,8 +34,8 @@
     },
     "dependencies": {
         "eslint-plugin-perfectionist": "4.2.0",
-        "react": "18.3.1",
-        "react-dom": "18.3.1",
+        "react": "19.0.0",
+        "react-dom": "19.0.0",
         "socket.io-client": "4.8.1"
     },
     "lint-staged": {
@@ -61,8 +61,8 @@
         "@stylistic/eslint-plugin-ts": "2.11.0",
         "@types/eslint": "9.6.1",
         "@types/node": "22.10.1",
-        "@types/react": "18.3.14",
-        "@types/react-dom": "18.3.2",
+        "@types/react": "19.0.1",
+        "@types/react-dom": "19.0.1",
         "@types/semver": "7.5.8",
         "@vitejs/plugin-react": "4.3.4",
         "@vitest/coverage-v8": "2.1.8",
