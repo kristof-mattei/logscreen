@@ -247,7 +247,7 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-${{ env.APPLICATION_NAME }}
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:buildcache-${{ env.APPLICATION_NAME }},mode=max
           platforms: linux/amd64, linux/arm64
-          outputs: type=docker,dest=/tmp/${{ env.APPLICATION_NAME }}-container.tar
+          outputs: type=oci,dest=/tmp/${{ env.APPLICATION_NAME }}-container.tar
 
       - name: Upload artifact
         uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
