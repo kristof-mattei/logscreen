@@ -300,6 +300,7 @@ jobs:
       - name: Load image from artifacts
         shell: bash
         id: image
+        working-directory: /tmp/container
         run: |
           ls
           path_to_tar=${{ env.APPLICATION_NAME }}-container.tar
@@ -320,7 +321,7 @@ jobs:
 
       - name: Merge images
         shell: bash
-        working-directory: /tmp/containers
+        working-directory: /tmp/container
         run: |
 
           new_tags="${{ join(steps.meta.outputs.tags, ' ') }}"
