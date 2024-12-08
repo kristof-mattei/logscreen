@@ -168,11 +168,9 @@ jobs:
           echo "next_version=${VERSION}" >> ${GITHUB_OUTPUT}
 
   docker-build:
-    name: Build Docker container for ${{ matrix.platform.docker }}-${{ matrix.platform.rust }}
+    name: Build Docker container
     runs-on: ubuntu-latest
     needs:
-      - build-rust
-      - build-typescript
       - calculate-version
       - repo-has-container
       - changes
