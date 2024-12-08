@@ -304,10 +304,8 @@ jobs:
         run: |
           ls
           path_to_tar=${{ env.APPLICATION_NAME }}-container.tar
-          echo $path_to_tar
           sha256=$(docker import ./$path_to_tar)
-          echo ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${sha256}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${sha256}
+          echo "Loaded ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${sha256}"
           echo "sha256=${sha256}" >> "$GITHUB_OUTPUT"
 
       - name: Extract Docker metadata
@@ -323,7 +321,6 @@ jobs:
         shell: bash
         working-directory: /tmp/container
         run: |
-
           new_tags="${{ join(steps.meta.outputs.tags, ' ') }}"
           new_tags=$(printf -- '--tag %s ' $new_tags)
 
