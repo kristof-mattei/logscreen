@@ -301,6 +301,7 @@ jobs:
         shell: bash
         id: image
         run: |
+          ls
           path_to_tar=${{ env.APPLICATION_NAME }}-container.tar
           echo $path_to_tar
           sha256=$(docker import $path_to_tar)
