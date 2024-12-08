@@ -1,9 +1,7 @@
-FROM --platform=$BUILDPLATFORM rust:1.83.0@sha256:f5375f865a8a5a734b9b9a38d58cd322d6a2eb8bb1aea8def32b89837258e7f8 AS rust_builder
+# syntax=docker/dockerfile-upstream:master
+FROM --platform=${BUILDPLATFORM} rust:1.83.0@sha256:f5375f865a8a5a734b9b9a38d58cd322d6a2eb8bb1aea8def32b89837258e7f8 AS rust-base
 
-ARG TARGET=x86_64-unknown-linux-musl
 ARG APPLICATION_NAME
-
-RUN rustup target add ${TARGET}
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean \
     && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' >/etc/apt/apt.conf.d/keep-cache
@@ -18,13 +16,22 @@ RUN --mount=type=cache,id=apt-cache-amd64,target=/var/cache/apt,sharing=locked \
     musl-dev \
     musl-tools
 
-RUN --mount=type=cache,id=apt-cache-arm64,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,id=apt-lib-arm64,target=/var/lib/apt,sharing=locked \
+FROM rust-base AS rust-linux-amd64
+ARG TARGET=x86_64-unknown-linux-musl
+
+FROM rust-base AS rust-linux-arm64
+ARG TARGET=aarch64-unknown-linux-musl
+RUN --mount=type=cache,id=apt-cache-arm64,from=rust-base,source=/var/cache/apt,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-arm64,from=rust-base,source=/var/lib/apt,target=/var/lib/apt,sharing=locked \
     dpkg --add-architecture arm64 && \
     apt-get update && \
     apt-get --no-install-recommends install -y \
     libc6-dev-arm64-cross \
     gcc-aarch64-linux-gnu
+
+FROM rust-${TARGETPLATFORM//\//-} AS rust-cargo-build
+
+RUN rustup target add ${TARGET} && rustup component add clippy rustfmt
 
 # The following block
 # creates an empty app, and we copy in Cargo.toml and Cargo.lock as they represent our dependencies
@@ -39,20 +46,23 @@ COPY Cargo.toml Cargo.lock ./
 # because have our source in a subfolder, we need to ensure that the path in the [[bin]] section exists
 RUN mkdir -p back-end/src && mv src/main.rs back-end/src/main.rs
 
-RUN --mount=type=cache,id=cargo-dependencies,target=/build/${APPLICATION_NAME}/target \
-    --mount=type=cache,target=/usr/local/cargo/git/db \
-    --mount=type=cache,target=/usr/local/cargo/registry/ \
+RUN --mount=type=cache,target=/build/${APPLICATION_NAME}/target \
+    --mount=type=cache,id=cargo-git,target=/usr/local/cargo/git/db,sharing=locked \
+    --mount=type=cache,id=cargo-registery,target=/usr/local/cargo/registry/,sharing=locked \
     cargo build --release --target ${TARGET}
+
+FROM rust-cargo-build AS rust-build
 
 # now we copy in the source which is more prone to changes and build it
 COPY . .
 
 # --release not needed, it is implied with install
-RUN --mount=type=cache,id=rust-full-build,target=/build/${APPLICATION_NAME}/target \
+RUN --mount=type=cache,target=/build/${APPLICATION_NAME}/target \
+    --mount=type=cache,id=cargo-git,target=/usr/local/cargo/git/db,sharing=locked \
+    --mount=type=cache,id=cargo-registery,target=/usr/local/cargo/registry/,sharing=locked \
     cargo install --path . --target ${TARGET} --root /output
 
-# ----
-FROM node:22.12.0-alpine3.19@sha256:40dc4b415c17b85bea9be05314b4a753f45a4e1716bb31c01182e6c53d51a654 AS typescript_builder
+FROM --platform=${BUILDPLATFORM} node:22.12.0-alpine3.19@sha256:40dc4b415c17b85bea9be05314b4a753f45a4e1716bb31c01182e6c53d51a654 AS typescript-build
 
 # The following block
 # creates an empty app, and we copy in package.json and packge-lock.json as they represent our dependencies
@@ -62,6 +72,7 @@ WORKDIR /build
 COPY package.json package-lock.json vite.config.ts tsconfig.json ./
 
 RUN --mount=type=cache,id=npm-dependencies,target=/root/.npm \
+    npm i -g npm@latest && \
     npm ci --include=dev
 
 # now we copy in the rest
@@ -78,8 +89,8 @@ USER appuser
 
 WORKDIR /app
 
-COPY --from=rust_builder /output/bin/* /app/entrypoint
-COPY --from=typescript_builder /build/dist /app/dist
+COPY --from=rust-build /output/bin/* /app/entrypoint
+COPY --from=typescript-build /build/dist /app/dist
 
 ENV RUST_BACKTRACE=full
 ENTRYPOINT ["/app/entrypoint"]
