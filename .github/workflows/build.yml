@@ -317,14 +317,14 @@ jobs:
             type=ref,event=pr,suffix=-latest
             type=raw,value=pr-${{ github.event.pull_request.base.sha }}-${{ github.event.pull_request.head.sha }}
 
-      - name: Merge images
+      - name: Set actual tags
         shell: bash
         working-directory: /tmp/container
         run: |
           new_tags="${{ join(steps.meta.outputs.tags, ' ') }}"
           new_tags=$(printf -- '--tag %s ' $new_tags)
 
-          docker buildx imagetools create $new_tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.image.outputs.sha256 }}
+          docker buildx imagetools create $new_tags ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.image.outputs.sha256 }}
 
           for new_tag in $(echo "${{ join(steps.meta.outputs.tags, ' ') }}"); do
             docker buildx imagetools inspect --raw $new_tag
