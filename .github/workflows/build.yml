@@ -306,6 +306,7 @@ jobs:
           path_to_tar=${{ env.APPLICATION_NAME }}-container.tar
           sha256=$(docker import ./$path_to_tar)
           echo "Loaded ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${sha256}"
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${sha256}"
           echo "sha256=${sha256}" >> "$GITHUB_OUTPUT"
 
       - name: Extract Docker metadata
