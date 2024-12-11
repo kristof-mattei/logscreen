@@ -312,6 +312,8 @@ jobs:
         working-directory: /tmp/containers
         run: |
           ls -l /tmp/containers
+          # fix for  "open /var/lib/docker/tmp/docker-import-737029498/blobs/json: no such file or directory"
+          mkdir -p /var/lib/docker/tmp
           for container in /tmp/containers/*
           do
             echo "Found ${container}"
