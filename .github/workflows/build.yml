@@ -309,12 +309,11 @@ jobs:
       - name: Load images from artifacts
         shell: bash
         id: image
-        working-directory: /tmp/container
+        working-directory: /tmp/containers
         run: |
-          ls -l /tmp/containers/
           for container in /tmp/containers/*
           do
-            echo $container
+            echo "Found ${container}"
             docker load --input $container
             tag=$(basename -- $container .tar)
             echo ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${tag}
