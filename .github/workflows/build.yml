@@ -311,12 +311,12 @@ jobs:
         id: image
         working-directory: /tmp/containers
         run: |
+          ls -l /tmp/containers
           for container in /tmp/containers/*
           do
             echo "Found ${container}"
             docker load --input $container
             tag=$(basename -- $container .tar)
-            echo ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:${tag}
             docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${tag}
           done
 
