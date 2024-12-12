@@ -278,6 +278,9 @@ jobs:
     env:
       APPLICATION_NAME: PLACEHOLDER # overridden in step 'Set application name', this is merely to satisfy the linter
     steps:
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
 
@@ -312,8 +315,6 @@ jobs:
         working-directory: /tmp/containers
         run: |
           ls -l /tmp/containers
-          # fix for  "open /var/lib/docker/tmp/docker-import-737029498/blobs/json: no such file or directory"
-          mkdir -p /var/lib/docker/tmp
           for container in /tmp/containers/*
           do
             echo "Found ${container}"
