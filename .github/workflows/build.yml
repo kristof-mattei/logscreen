@@ -278,9 +278,6 @@ jobs:
     env:
       APPLICATION_NAME: PLACEHOLDER # overridden in step 'Set application name', this is merely to satisfy the linter
     steps:
-      - name: Set up Docker
-        uses: docker/setup-docker-action@v4
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
 
@@ -314,13 +311,15 @@ jobs:
         id: image
         working-directory: /tmp/containers
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | oras login -u "${{ github.actor }}" --password-stdin ${{ env.REGISTRY }}
+
           ls -l /tmp/containers
           for container in /tmp/containers/*
           do
             echo "Found ${container}"
-            docker load --input $container
             tag=$(basename -- $container .tar)
-            docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${tag}
+
+            oras copy --from-oci-layout "/tmp/${container}:${tag}" "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${tag}"
           done
 
       - name: Extract Docker metadata
@@ -337,13 +336,13 @@ jobs:
         working-directory: /tmp/containers
         run: |
           # all files in dir
-          platform_tags=(*)
+          containers=(*)
           # yeet extension
-          platform_tags=${platform_tags[@]%.tar}
+          containers=${containers[@]%.tar}
           new_tags="${{ join(steps.meta.outputs.tags, ' ') }}"
           new_tags=$(printf -- '--tag %s ' $new_tags)
-          expanded_platform_tags=$(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:%s ' $platform_tags)
-          docker buildx imagetools create $new_tags $expanded_platform_tags
+          expanded_containters_tags=$(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:%s ' ${containers})
+          docker buildx imagetools create $new_tags $expanded_containters_tags
           for new_tag in $(echo "${{ join(steps.meta.outputs.tags, ' ') }}"); do
             docker buildx imagetools inspect --raw $new_tag
           done
