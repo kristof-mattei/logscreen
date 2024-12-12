@@ -319,7 +319,7 @@ jobs:
             echo "Found ${container}"
             tag=$(basename -- $container .tar)
 
-            oras copy --from-oci-layout "/tmp/${container}:${tag}" "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${tag}"
+            oras copy --from-oci-layout "${container}:${tag}" "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${tag}"
           done
 
       - name: Extract Docker metadata
