@@ -23,9 +23,9 @@ use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
 use tokio_util::task::TaskTracker;
 use tracing::{event, Level};
-use tracing_subscriber::filter::EnvFilter;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
+use tracing_subscriber::{filter::EnvFilter, Layer};
 
 use crate::logs::setup_socket;
 use crate::router::build_router;
@@ -141,7 +141,7 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
     Ok(())
 }
 
-fn build_filter() -> EnvFilter {
+fn build_filter(with_tokio_runtime_trace: bool) -> EnvFilter {
     let filter_builder =
         EnvFilter::builder()
             .parse(env::var(EnvFilter::DEFAULT_ENV).unwrap_or_else(|_| {
@@ -149,16 +149,23 @@ fn build_filter() -> EnvFilter {
             }))
             .unwrap();
 
-    #[cfg(feature = "console-subscriber")]
-    let filter_builder = filter_builder
-        .add_directive("tokio=TRACE".parse().unwrap())
-        .add_directive("runtime=TRACE".parse().unwrap());
-
-    filter_builder
+    if with_tokio_runtime_trace {
+        filter_builder
+            .add_directive("tokio=TRACE".parse().unwrap())
+            .add_directive("runtime=TRACE".parse().unwrap())
+    } else {
+        filter_builder
+    }
 }
 
 fn init_tracing() {
-    let registry = tracing_subscriber::registry().with(build_filter());
+    #[cfg(feature = "console-subscriber")]
+    let main_filter = build_filter(true);
+
+    #[cfg(not(feature = "console-subscriber"))]
+    let main_filter = build_filter(false);
+
+    let registry = tracing_subscriber::registry().with(main_filter);
 
     // we'll need to do this hack until https://github.com/tokio-rs/tracing/issues/2929 is fixed
     #[cfg(feature = "console-subscriber")]
@@ -169,7 +176,7 @@ fn init_tracing() {
     );
 
     registry
-        .with(tracing_subscriber::fmt::layer())
+        .with(tracing_subscriber::fmt::layer().with_filter(build_filter(false)))
         .with(tracing_error::ErrorLayer::default())
         .init();
 }
