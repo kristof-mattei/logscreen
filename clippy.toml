@@ -1,5 +1,8 @@
 allowed-duplicate-crates = [
+    "base64",
     "matchit",
+    "hashbrown",
+    "indexmap",
     "regex-automata",
     "regex-syntax",
     "sync_wrapper",

@@ -1,3 +1,4 @@
+mod broadcast;
 mod logs;
 mod router;
 mod routes;
@@ -8,19 +9,19 @@ mod tasks;
 mod utils;
 
 use std::collections::VecDeque;
-use std::env;
 use std::net::SocketAddr;
 use std::sync::Arc;
-use std::time::{Duration, SystemTime};
+use std::time::Duration;
+use std::{env, thread};
 
-use serde_json::json;
+use broadcast::setup_broadcast;
 use socketioxide::SocketIo;
 use states::config::Config;
 use tokio::signal;
 use tokio::sync::Mutex;
-use tokio::task::JoinSet;
 use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
+use tokio_util::task::TaskTracker;
 use tracing::{event, Level};
 use tracing_subscriber::filter::EnvFilter;
 use tracing_subscriber::layer::SubscriberExt;
@@ -32,7 +33,7 @@ use crate::server::setup_server;
 use crate::state::ApplicationState;
 use crate::tasks::monitor_stdin;
 
-#[allow(clippy::unnecessary_wraps)]
+#[expect(clippy::unnecessary_wraps)]
 fn build_configs() -> Result<Config, color_eyre::eyre::Report> {
     let config = Config {};
 
@@ -53,62 +54,29 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
 
     let (layer, io) = SocketIo::new_layer();
 
-    let router = build_router(application_state, layer);
+    let (sender, receiver) = tokio::sync::mpsc::channel::<String>(32);
 
-    let bind_to = SocketAddr::from(([0, 0, 0, 0], 3000));
-
-    let messages = Arc::new(Mutex::<VecDeque<String>>::new(VecDeque::new()));
-
-    let (sender, mut receiver) = tokio::sync::mpsc::channel::<String>(32);
-
-    let word_socket = { setup_socket(io, messages).await };
-
-    let mut tasks = JoinSet::new();
+    let tasks = TaskTracker::new();
 
     {
+        let messages = Arc::new(Mutex::<VecDeque<String>>::new(VecDeque::new()));
+        let websocket = { setup_socket(io, messages).await };
+
         let token = token.clone();
 
         tasks.spawn(async move {
             let _guard = token.clone().drop_guard();
 
-            loop {
-                let message = receiver.recv().await;
+            setup_broadcast(websocket, receiver, token).await;
 
-                let timestamp = SystemTime::now()
-                    .duration_since(SystemTime::UNIX_EPOCH)
-                    .expect("Computer time wrong")
-                    .as_millis();
-
-                let json = json!({
-                    "timestamp": timestamp,
-                    "message": message
-                });
-
-                if let Err(err) = word_socket.get_socket().emit("input", &json) {
-                    event!(Level::ERROR, ?err, "Failed to send line");
-                }
-            }
+            event!(Level::INFO, "Websocket broadcast shutdown");
         });
     }
 
     {
-        let token = token.clone();
+        let bind_to = SocketAddr::from(([0, 0, 0, 0], 3000));
+        let router = build_router(application_state, layer);
 
-        tasks.spawn(async move {
-            let _guard = token.clone().drop_guard();
-
-            match monitor_stdin(sender, token).await {
-                Err(err) => {
-                    event!(Level::ERROR, ?err, "Stdin died");
-                },
-                Ok(()) => {
-                    event!(Level::INFO, "Stdin shut down");
-                },
-            }
-        });
-    }
-
-    {
         let token = token.clone();
 
         tasks.spawn(async move {
@@ -116,12 +84,20 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
 
             match setup_server(bind_to, router, token).await {
                 Err(err) => {
-                    event!(Level::ERROR, ?err, "Server died");
+                    event!(Level::ERROR, ?err, "Webserver died");
                 },
                 Ok(()) => {
-                    event!(Level::INFO, "Server shut down");
+                    event!(Level::INFO, "Webserver shut down gracefully");
                 },
             }
+        });
+    }
+
+    {
+        let token = token.clone();
+
+        let _handle = thread::spawn(|| {
+            monitor_stdin(sender, token);
         });
     }
 
@@ -145,9 +121,12 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
     // announce cancel
     token.cancel();
 
+    // close the tracker, otherwise wait doesn't work
+    tasks.close();
+
     // wait for the task that holds the server to exit gracefully
     // it listens to shutdown_send
-    if timeout(Duration::from_millis(10000), tasks.shutdown())
+    if timeout(Duration::from_millis(10000), tasks.wait())
         .await
         .is_err()
     {
@@ -162,20 +141,45 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
     Ok(())
 }
 
+fn build_filter() -> EnvFilter {
+    let filter_builder =
+        EnvFilter::builder()
+            .parse(env::var(EnvFilter::DEFAULT_ENV).unwrap_or_else(|_| {
+                format!("INFO,{}=TRACE", env!("CARGO_PKG_NAME").replace('-', "_"))
+            }))
+            .unwrap();
+
+    #[cfg(feature = "console-subscriber")]
+    let filter_builder = filter_builder
+        .add_directive("tokio=TRACE".parse().unwrap())
+        .add_directive("runtime=TRACE".parse().unwrap());
+
+    filter_builder
+}
+
+fn init_tracing() {
+    let registry = tracing_subscriber::registry().with(build_filter());
+
+    // we'll need to do this hack until https://github.com/tokio-rs/tracing/issues/2929 is fixed
+    #[cfg(feature = "console-subscriber")]
+    let registry = registry.with(
+        console_subscriber::ConsoleLayer::builder()
+            .with_default_env()
+            .spawn(),
+    );
+
+    registry
+        .with(tracing_subscriber::fmt::layer())
+        .with(tracing_error::ErrorLayer::default())
+        .init();
+}
+
 fn main() -> Result<(), color_eyre::Report> {
     color_eyre::config::HookBuilder::default()
         .capture_span_trace_by_default(false)
         .install()?;
 
-    let rust_log_value = env::var(EnvFilter::DEFAULT_ENV)
-        .unwrap_or_else(|_| format!("INFO,{}=TRACE", env!("CARGO_PKG_NAME").replace('-', "_")));
-
-    // set up logger
-    tracing_subscriber::registry()
-        .with(EnvFilter::builder().parse(rust_log_value).unwrap())
-        .with(tracing_subscriber::fmt::layer())
-        .with(tracing_error::ErrorLayer::default())
-        .init();
+    init_tracing();
 
     // initialize the runtime
     let rt = tokio::runtime::Runtime::new().unwrap();
