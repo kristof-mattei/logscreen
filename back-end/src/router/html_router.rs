@@ -12,7 +12,7 @@ pub(crate) fn build_html_router() -> Router {
         let svc: reverse_proxy_service::ReusedService<
             reverse_proxy_service::Identity,
             reverse_proxy_service::client::HttpConnector,
-            _,
+            axum::body::Body,
         > = vite_proxy_service_builder.build(reverse_proxy_service::rewrite::Identity {});
 
         Router::new().nest_service("/", svc)
