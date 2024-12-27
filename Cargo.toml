@@ -61,7 +61,7 @@ tracing-subscriber = { version = "0.3.19", features = ["env-filter"] }
 tracing-error = "0.2.1"
 url = { version = "2.5.3", features = ["serde"] }
 socketioxide = { version = "0.15.1", features = ["tracing"] }
-serde = { version = "1.0.216", features = ["derive"] }
+serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.134"
 backtrace = "0.3.74"
 reverse-proxy-service = { git = "https://github.com/kristof-mattei/reverse-proxy-service", rev = "e72c948c3b37e4e7ef18835b4c2f41778e8c3c5d", features = [
