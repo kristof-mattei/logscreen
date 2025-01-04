@@ -56,9 +56,9 @@ dependencies = [
 
 [[package]]
 name = "async-trait"
-version = "0.1.83"
+version = "0.1.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "721cae7de5c34fbb2acd27e21e6d2cf7b886dce0c27388d46c4e6c47ea4318dd"
+checksum = "1b1244b10dcd56c92219da4e14caa97e312079e185f04ba3eea25061561dc0a0"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -179,6 +179,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "axum-proxy"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dfa701f8507e2173d61e9dec62b1f2c139beca6ca501392e2ab886a9d2630f95"
+dependencies = [
+ "axum 0.8.1",
+ "http",
+ "http-body",
+ "hyper",
+ "hyper-util",
+ "log",
+ "regex",
+ "tower-service",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -237,9 +253,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.6"
+version = "1.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8d6dbb628b8f8555f86d0323c2eb39e3ec81901f4b83e091db8a6a76d316a333"
+checksum = "a012a0df96dd6d06ba9a1b29d6402d1a5d77c6befd2566afdc26e10603dc93d7"
 dependencies = [
  "shlex",
 ]
@@ -924,11 +940,11 @@ name = "logscreen"
 version = "0.0.0-development"
 dependencies = [
  "axum 0.8.1",
+ "axum-proxy",
  "backtrace",
  "color-eyre",
  "console-subscriber",
  "openssl",
- "reverse-proxy-service",
  "serde",
  "serde_json",
  "socketioxide",
@@ -1293,21 +1309,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
 
 [[package]]
-name = "reverse-proxy-service"
-version = "0.2.1"
-source = "git+https://github.com/kristof-mattei/reverse-proxy-service?rev=e72c948c3b37e4e7ef18835b4c2f41778e8c3c5d#e72c948c3b37e4e7ef18835b4c2f41778e8c3c5d"
-dependencies = [
- "axum 0.8.1",
- "http",
- "http-body",
- "hyper",
- "hyper-util",
- "log",
- "regex",
- "tower-service",
-]
-
-[[package]]
 name = "rustc-demangle"
 version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1498,9 +1499,9 @@ checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
 name = "syn"
-version = "2.0.93"
+version = "2.0.94"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c786062daee0d6db1132800e623df74274a0a87322d8e183338e01b3d98d058"
+checksum = "987bc0be1cdea8b10216bd06e2ca407d40b9543468fafd3ddfb02f36e77f71f3"
 dependencies = [
  "proc-macro2",
  "quote",
