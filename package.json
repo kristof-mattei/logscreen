@@ -20,7 +20,7 @@
         "prepare": "husky"
     },
     "engines": {
-        "node": ">=22.12.0",
+        "node": ">=22.13.0",
         "npm": ">=11.0.0"
     },
     "repository": {
@@ -61,7 +61,7 @@
         "@stylistic/eslint-plugin-ts": "2.12.1",
         "@types/eslint": "9.6.1",
         "@types/node": "22.10.5",
-        "@types/react": "19.0.3",
+        "@types/react": "19.0.4",
         "@types/react-dom": "19.0.2",
         "@types/semver": "7.5.8",
         "@vitejs/plugin-react": "4.3.4",
@@ -70,7 +70,7 @@
         "autoprefixer": "10.4.20",
         "bootstrap": "5.3.3",
         "conventional-changelog-conventionalcommits": "8.0.0",
-        "dependency-cruiser": "16.8.0",
+        "dependency-cruiser": "16.9.0",
         "eslint": "9.17.0",
         "eslint-config-love": "101.0.0",
         "eslint-config-prettier": "9.1.0",
@@ -94,7 +94,7 @@
         "semver": "7.6.3",
         "serialize-error": "12.0.0",
         "tailwindcss": "3.4.17",
-        "typescript": "5.7.2",
+        "typescript": "5.7.3",
         "vite": "5.4.11",
         "vite-plugin-checker": "0.8.0",
         "vite-plugin-svgr": "4.3.0",
