@@ -1,4 +1,7 @@
 // This app doesn't correctly refresh
+import { promisify } from "node:util";
+
+const sleep = promisify(setTimeout);
 
 class App {
     private running = true;
@@ -17,7 +20,7 @@ class App {
         while (this.running) {
             console.log(new Date().toISOString());
 
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await sleep(1000);
         }
     }
 }
@@ -29,5 +32,3 @@ function main(): Promise<void> {
 }
 
 await main();
-
-export {};
