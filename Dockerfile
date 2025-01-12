@@ -60,6 +60,9 @@ COPY back-end ./back-end
 # ensure cargo picks up on the change
 RUN touch ./back-end/src/main.rs
 
+# ensure cargo picks up on the change
+RUN touch ./src/main.rs
+
 # --release not needed, it is implied with install
 RUN --mount=type=cache,target=/build/${APPLICATION_NAME}/target \
     --mount=type=cache,id=cargo-git,target=/usr/local/cargo/git/db,sharing=locked \

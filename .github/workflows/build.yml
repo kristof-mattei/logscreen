@@ -86,7 +86,7 @@ jobs:
       - changes
       - repo-has-container
     outputs:
-      version: ${{ steps.version.outputs.next_version }}
+      version: ${{ steps.version.outputs.version }}
     if: |
       github.event_name == 'pull_request' &&
       fromJSON(needs.repo-has-container.outputs.has_container) == true &&
@@ -156,16 +156,16 @@ jobs:
           if [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "New version: ${VERSION}"
           else
-              VERSION="$(git tag --points-at "$(git rev-list --tags --max-count=1)" | sort --reverse | head --lines 1)"
+              VERSION="v$(cog -v get-version)"
 
-              echo "No version generated, defaulting to latest git tag: ${VERSION}"
+              echo "No version generated, defaulting to latest tag: ${VERSION}"
           fi
 
           # remove v
           VERSION="${VERSION//v/}"
 
           # store
-          echo "next_version=${VERSION}" >> ${GITHUB_OUTPUT}
+          echo "version=${VERSION}" >> ${GITHUB_OUTPUT}
 
   docker-build:
     name: Build Docker container
@@ -199,7 +199,7 @@ jobs:
       - name: Set the Cargo.toml version before we copy in the data into the Docker container
         shell: bash
         run: |
-          ./.github/scripts/update-version.sh ${{ needs.calculate-version.outputs.version }}
+          cargo set-version ${{ needs.calculate-version.outputs.version }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3.8.0
@@ -305,6 +305,9 @@ jobs:
         shell: bash
         run: |
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
+
+      - name: Ensure we have oras
+        uses: oras-project/setup-oras@9c92598691bfef1424de2f8fae81941568f5889c # v1.2.1
 
       - name: Load images from artifacts
         shell: bash
