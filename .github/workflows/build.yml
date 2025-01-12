@@ -196,7 +196,19 @@ jobs:
         with:
           show-progress: false
 
-      - name: Install cargo-edit to do set-version
+      - name: Get binstall
+        shell: bash
+        run: |
+          archive="cargo-binstall-x86_64-unknown-linux-musl.tgz"
+          wget "https://github.com/cargo-bins/cargo-binstall/releases/latest/download/${archive}"
+
+          tar -xvf "./${archive}"
+
+          rm "./${archive}"
+
+          mv ./cargo-binstall ~/.cargo/bin/
+
+      - name: Install binstall to do set-version
         shell: bash
         run: |
           cargo binstall cargo-edit
