@@ -196,6 +196,11 @@ jobs:
         with:
           show-progress: false
 
+      - name: Install cargo-edit to do set-version
+        shell: bash
+        run: |
+          cargo binstall cargo-edit
+
       - name: Set the Cargo.toml version before we copy in the data into the Docker container
         shell: bash
         run: |
