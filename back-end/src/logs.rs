@@ -18,9 +18,12 @@ impl LogsSocket {
 
 impl Drop for LogsSocket {
     fn drop(&mut self) {
-        if let Err(err) = self.io.emit("goodbye", &json!({})) {
-            event!(Level::ERROR, ?err, "Failed to announce shutting down");
-        }
+        let io = self.io.clone();
+        tokio::task::spawn(async move {
+            if let Err(err) = io.emit("goodbye", &json!({})).await {
+                event!(Level::ERROR, ?err, "Failed to announce shutting down");
+            }
+        });
     }
 }
 

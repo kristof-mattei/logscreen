@@ -23,9 +23,10 @@ use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
 use tokio_util::task::TaskTracker;
 use tracing::{event, Level};
+use tracing_subscriber::filter::EnvFilter;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
-use tracing_subscriber::{filter::EnvFilter, Layer};
+use tracing_subscriber::Layer;
 
 use crate::logs::setup_socket;
 use crate::router::build_router;
