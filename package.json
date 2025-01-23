@@ -55,7 +55,7 @@
         "@rollup/plugin-inject": "5.0.5",
         "@stylistic/eslint-plugin-ts": "2.13.0",
         "@types/eslint": "9.6.1",
-        "@types/node": "22.10.8",
+        "@types/node": "22.10.9",
         "@types/react": "19.0.7",
         "@types/react-dom": "19.0.3",
         "@vitejs/plugin-react": "4.3.4",
