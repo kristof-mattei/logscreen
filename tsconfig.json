@@ -125,7 +125,6 @@
     "dependency-cruiser.config.mjs",
     "eslint.config.mjs",
     "prettier.config.mjs",
-    "postcss.config.mjs",
     "tailwind.config.mjs",
   ],
 }
