@@ -13,7 +13,9 @@
         "lint:fix": "npm run lint -- --fix",
         "preview": "vite preview",
         "format": "prettier --write .",
-        "deps:ci": "depcruise --config dependency-cruiser.config.mjs --output-type err front-end/src", "deps:graph": "depcruise --config dependency-cruiser.config.mjs --output-type dot front-end/src | dot -T svg > dependency-graph.svg", "deps:report": "depcruise --config dependency-cruiser.config.mjs --output-type err-html --output-to dependency-report.html front-end/src"
+        "deps:ci": "depcruise --config dependency-cruiser.config.mjs --output-type err front-end/src",
+        "deps:graph": "depcruise --config dependency-cruiser.config.mjs --output-type dot front-end/src | dot -T svg > dependency-graph.svg",
+        "deps:report": "depcruise --config dependency-cruiser.config.mjs --output-type err-html --output-to dependency-report.html front-end/src"
     },
     "engines": {
         "node": ">=22.13.1",
@@ -51,6 +53,7 @@
         "@eslint/js": "9.18.0",
         "@rollup/plugin-inject": "5.0.5",
         "@stylistic/eslint-plugin-ts": "2.13.0",
+        "@tailwindcss/vite": "4.0.0",
         "@types/eslint": "9.6.1",
         "@types/node": "22.10.10",
         "@types/react": "19.0.8",
@@ -76,10 +79,9 @@
         "eslint-plugin-react-refresh": "0.4.18",
         "eslint-plugin-unicorn": "56.0.1",
         "nock": "13.5.6",
-        "postcss": "8.5.1",
         "prettier": "3.4.2",
         "sass": "1.83.4",
-        "tailwindcss": "3.4.17",
+        "tailwindcss": "4.0.0",
         "typescript": "5.7.3",
         "vite": "6.0.11",
         "vite-plugin-checker": "0.8.0",

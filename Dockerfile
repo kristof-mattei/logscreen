@@ -73,7 +73,7 @@ FROM --platform=${BUILDPLATFORM} node:22.12.0-alpine3.19@sha256:40dc4b415c17b85b
 # This allows us to copy in the source in a different layer which in turn allows us to leverage Docker's layer caching
 # That means that if our dependencies don't change rebuilding is much faster
 WORKDIR /build
-COPY package.json package-lock.json vite.config.ts postcss.config.mjs tailwind.config.mjs tsconfig.json ./
+COPY package.json package-lock.json vite.config.ts tailwind.config.mjs tsconfig.json ./
 
 ARG NPM_CONFIG_FUND=false
 RUN --mount=type=cache,id=npm-dependencies,target=/root/.npm \

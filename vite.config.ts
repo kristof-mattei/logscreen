@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import { codecovVitePlugin } from "@codecov/vite-plugin";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import type { UserConfig } from "vite";
 import { loadEnv } from "vite";
@@ -37,6 +38,7 @@ export default defineConfig(({ mode }) => {
             react(),
             viteTsConfigPaths(),
             checker({ typescript: true }),
+            tailwindcss(),
             codecovVitePlugin({
                 enableBundleAnalysis: environment["CODECOV_TOKEN"] !== undefined,
                 bundleName: "logscreen-front-end",
