@@ -31,7 +31,7 @@
         "url": "https://github.com/kristof-mattei/logscreen/issues"
     },
     "dependencies": {
-        "eslint-plugin-perfectionist": "4.7.0",
+        "eslint-plugin-perfectionist": "4.8.0",
         "react": "19.0.0",
         "react-dom": "19.0.0",
         "socket.io-client": "4.8.1"
