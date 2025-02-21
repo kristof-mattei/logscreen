@@ -1,9 +1,9 @@
 #![deny(clippy::unused_async)]
 
+use axum::Router;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::routing::get;
-use axum::Router;
 mod api_router;
 mod html_router;
 use socketioxide::layer::SocketIoLayer;
