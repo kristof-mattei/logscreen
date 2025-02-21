@@ -2,10 +2,10 @@ use std::collections::VecDeque;
 use std::sync::Arc;
 
 use serde_json::json;
-use socketioxide::extract::SocketRef;
 use socketioxide::SocketIo;
+use socketioxide::extract::SocketRef;
 use tokio::sync::Mutex;
-use tracing::{event, Level};
+use tracing::{Level, event};
 
 pub(crate) struct LogsSocket {
     io: SocketIo,

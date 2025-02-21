@@ -3,7 +3,7 @@ use std::time::SystemTime;
 use serde_json::json;
 use tokio::sync::mpsc::Receiver;
 use tokio_util::sync::CancellationToken;
-use tracing::{event, Level};
+use tracing::{Level, event};
 
 use crate::logs::LogsSocket;
 

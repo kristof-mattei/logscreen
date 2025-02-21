@@ -1,5 +1,5 @@
-use color_eyre::eyre::Context;
 use color_eyre::Report;
+use color_eyre::eyre::Context;
 use url::Url;
 
 #[expect(dead_code)]
