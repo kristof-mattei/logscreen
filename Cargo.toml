@@ -69,4 +69,4 @@ tracing-error = "0.2.1"
 url = { version = "2.5.3", features = ["serde"] }
 
 [target.'cfg(all(any(target_arch="x86_64", target_arch="aarch64"), target_os="linux", target_env="musl"))'.dependencies]
-openssl = { version = "0.10.71", features = ["vendored"] }
+openssl = { version = "0.10.72", features = ["vendored"] }
