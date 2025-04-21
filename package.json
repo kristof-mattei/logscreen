@@ -75,7 +75,7 @@
     "eslint-plugin-promise": "7.2.1",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hook-form": "0.3.0",
-    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-react-hooks": "6.0.0",
     "eslint-plugin-react-refresh": "0.4.19",
     "eslint-plugin-unicorn": "58.0.0",
     "nock": "14.0.4",
