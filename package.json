@@ -80,7 +80,7 @@
     "nock": "14.0.4",
     "prettier": "3.5.3",
     "prettier-plugin-sh": "0.17.4",
-    "sass": "1.87.0",
+    "sass": "1.88.0",
     "tailwindcss": "4.1.6",
     "typescript": "5.8.3",
     "vite": "6.3.5",
