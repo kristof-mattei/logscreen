@@ -70,7 +70,7 @@ RUN --mount=type=cache,target=/build/${APPLICATION_NAME}/target \
     --mount=type=cache,id=cargo-registery,target=/usr/local/cargo/registry/,sharing=locked \
     ./build.sh install --path . --target ${TARGET} --root /output
 
-# Npm build
+# Front-end (NPM) build
 FROM --platform=${BUILDPLATFORM} node:22.12.0-alpine3.19@sha256:40dc4b415c17b85bea9be05314b4a753f45a4e1716bb31c01182e6c53d51a654 AS typescript-build
 
 # The following block
