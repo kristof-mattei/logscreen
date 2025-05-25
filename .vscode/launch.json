@@ -29,7 +29,12 @@
             "request": "launch",
             "name": "Debug unit tests in executable 'logscreen'",
             "cargo": {
-                "args": ["test", "--no-run", "--bin=logscreen", "--package=logscreen"],
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=logscreen",
+                    "--package=logscreen"
+                ],
                 "filter": {
                     "name": "logscreen",
                     "kind": "bin"
@@ -49,7 +54,12 @@
             "request": "launch",
             "name": "Debug integration test 'integration_tests'",
             "cargo": {
-                "args": ["test", "--no-run", "--test=integration_tests", "--package=logscreen"],
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=integration_tests",
+                    "--package=logscreen"
+                ],
                 "filter": {
                     "name": "integration_tests",
                     "kind": "test"
