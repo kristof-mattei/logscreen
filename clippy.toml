@@ -6,6 +6,7 @@ allowed-duplicate-crates = [
     "regex-automata",
     "regex-syntax",
     "wasi",
+    "windows-sys",
     "zerocopy",
     "zerocopy-derive",
 ]
