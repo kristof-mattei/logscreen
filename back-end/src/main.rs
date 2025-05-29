@@ -143,12 +143,12 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
 }
 
 fn build_filter(with_tokio_runtime_trace: bool) -> EnvFilter {
-    let filter_builder =
-        EnvFilter::builder()
-            .parse(env::var(EnvFilter::DEFAULT_ENV).unwrap_or_else(|_| {
-                format!("INFO,{}=TRACE", env!("CARGO_PKG_NAME").replace('-', "_"))
-            }))
-            .unwrap();
+    let filter_builder = EnvFilter::builder()
+        .parse(
+            env::var(EnvFilter::DEFAULT_ENV)
+                .unwrap_or_else(|_| format!("INFO,{}=TRACE", env!("CARGO_CRATE_NAME"))),
+        )
+        .unwrap();
 
     if with_tokio_runtime_trace {
         filter_builder
