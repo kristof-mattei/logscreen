@@ -49,7 +49,7 @@ path = "back-end/tests/integration_tests.rs"
 
 [features]
 default = []
-console-subscriber = ["dep:console-subscriber"]
+tokio-console = ["dep:console-subscriber"]
 
 [dependencies]
 axum = "0.8.4"
