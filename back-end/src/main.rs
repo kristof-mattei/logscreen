@@ -15,6 +15,8 @@ use std::time::Duration;
 use std::{env, thread};
 
 use broadcast::setup_broadcast;
+use color_eyre::config::HookBuilder;
+use color_eyre::eyre;
 use socketioxide::SocketIo;
 use states::config::Config;
 use tokio::signal;
@@ -35,7 +37,7 @@ use crate::state::ApplicationState;
 use crate::tasks::monitor_stdin;
 
 #[expect(clippy::unnecessary_wraps)]
-fn build_configs() -> Result<Config, color_eyre::eyre::Report> {
+fn build_configs() -> Result<Config, eyre::Report> {
     let config = Config {};
 
     Ok(config)
@@ -43,7 +45,7 @@ fn build_configs() -> Result<Config, color_eyre::eyre::Report> {
 
 /// starts all the tasks, such as the web server, the key refresh, ...
 /// ensures all tasks are gracefully shutdown in case of error, ctrl+c or sigterm
-async fn start_tasks() -> Result<(), color_eyre::Report> {
+async fn start_tasks() -> Result<(), eyre::Report> {
     let config = build_configs()?;
 
     // this channel is used to communicate between
@@ -142,58 +144,50 @@ async fn start_tasks() -> Result<(), color_eyre::Report> {
     Ok(())
 }
 
-fn build_filter(with_tokio_runtime_trace: bool) -> EnvFilter {
-    let filter_builder = EnvFilter::builder()
-        .parse(
-            env::var(EnvFilter::DEFAULT_ENV)
-                .unwrap_or_else(|_| format!("INFO,{}=TRACE", env!("CARGO_CRATE_NAME"))),
-        )
-        .unwrap();
-
-    if with_tokio_runtime_trace {
-        filter_builder
-            .add_directive("tokio=TRACE".parse().unwrap())
-            .add_directive("runtime=TRACE".parse().unwrap())
-    } else {
-        filter_builder
-    }
+fn build_default_directive() -> EnvFilter {
+    EnvFilter::builder()
+        .parse(format!("INFO,{}=TRACE", env!("CARGO_CRATE_NAME")))
+        .expect("Default filter should always work")
 }
 
-fn init_tracing() {
-    #[cfg(feature = "console-subscriber")]
-    let main_filter = build_filter(true);
+fn init_tracing() -> Result<(), eyre::Report> {
+    let registry = tracing_subscriber::registry();
 
-    #[cfg(not(feature = "console-subscriber"))]
-    let main_filter = build_filter(false);
+    #[cfg(feature = "tokio-console")]
+    let registry = registry.with(console_subscriber::ConsoleLayer::builder().spawn());
 
-    let registry = tracing_subscriber::registry().with(main_filter);
-
-    // we'll need to do this hack until https://github.com/tokio-rs/tracing/issues/2929 is fixed
-    #[cfg(feature = "console-subscriber")]
-    let registry = registry.with(
-        console_subscriber::ConsoleLayer::builder()
-            .with_default_env()
-            .spawn(),
-    );
+    let (filter, filter_parsing_error) = match env::var(EnvFilter::DEFAULT_ENV) {
+        Ok(user_directive) => match EnvFilter::builder().parse(user_directive) {
+            Ok(filter) => (filter, None),
+            Err(error) => (build_default_directive(), Some(eyre::Report::new(error))),
+        },
+        Err(env::VarError::NotPresent) => (build_default_directive(), None),
+        Err(error @ env::VarError::NotUnicode(_)) => {
+            (build_default_directive(), Some(eyre::Report::new(error)))
+        },
+    };
 
     registry
-        .with(tracing_subscriber::fmt::layer().with_filter(build_filter(false)))
+        .with(tracing_subscriber::fmt::layer().with_filter(filter))
         .with(tracing_error::ErrorLayer::default())
-        .init();
+        .try_init()?;
+
+    filter_parsing_error.map_or(Ok(()), Err)
 }
 
-fn main() -> Result<(), color_eyre::Report> {
-    color_eyre::config::HookBuilder::default()
-        .capture_span_trace_by_default(false)
+fn main() -> Result<(), eyre::Report> {
+    HookBuilder::default()
+        .capture_span_trace_by_default(true)
+        .display_env_section(false)
         .install()?;
 
-    init_tracing();
+    init_tracing()?;
 
     // initialize the runtime
     let rt = tokio::runtime::Runtime::new().unwrap();
 
     // start service
-    let result: Result<(), color_eyre::Report> = rt.block_on(start_tasks());
+    let result: Result<(), eyre::Report> = rt.block_on(start_tasks());
 
     result
 }
