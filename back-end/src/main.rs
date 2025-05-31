@@ -152,11 +152,6 @@ fn build_default_directive() -> EnvFilter {
 }
 
 fn init_tracing() -> Result<(), eyre::Report> {
-    let registry = tracing_subscriber::registry();
-
-    #[cfg(feature = "tokio-console")]
-    let registry = registry.with(console_subscriber::ConsoleLayer::builder().spawn());
-
     let (filter, filter_parsing_error) = match env::var(EnvFilter::DEFAULT_ENV) {
         Ok(user_directive) => match EnvFilter::builder().parse(user_directive) {
             Ok(filter) => (filter, None),
@@ -167,6 +162,11 @@ fn init_tracing() -> Result<(), eyre::Report> {
             (build_default_directive(), Some(eyre::Report::new(error)))
         },
     };
+
+    let registry = tracing_subscriber::registry();
+
+    #[cfg(feature = "tokio-console")]
+    let registry = registry.with(console_subscriber::ConsoleLayer::builder().spawn());
 
     registry
         .with(tracing_subscriber::fmt::layer().with_filter(filter))
