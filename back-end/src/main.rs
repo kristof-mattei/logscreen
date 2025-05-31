@@ -145,7 +145,7 @@ async fn start_tasks() -> Result<(), eyre::Report> {
     Ok(())
 }
 
-fn build_default_directive() -> EnvFilter {
+fn build_default_filter() -> EnvFilter {
     EnvFilter::builder()
         .parse(format!("INFO,{}=TRACE", env!("CARGO_CRATE_NAME")))
         .expect("Default filter should always work")
@@ -155,11 +155,11 @@ fn init_tracing() -> Result<(), eyre::Report> {
     let (filter, filter_parsing_error) = match env::var(EnvFilter::DEFAULT_ENV) {
         Ok(user_directive) => match EnvFilter::builder().parse(user_directive) {
             Ok(filter) => (filter, None),
-            Err(error) => (build_default_directive(), Some(eyre::Report::new(error))),
+            Err(error) => (build_default_filter(), Some(eyre::Report::new(error))),
         },
-        Err(VarError::NotPresent) => (build_default_directive(), None),
+        Err(VarError::NotPresent) => (build_default_filter(), None),
         Err(error @ VarError::NotUnicode(_)) => {
-            (build_default_directive(), Some(eyre::Report::new(error)))
+            (build_default_filter(), Some(eyre::Report::new(error)))
         },
     };
 
