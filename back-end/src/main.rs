@@ -9,6 +9,7 @@ mod tasks;
 mod utils;
 
 use std::collections::VecDeque;
+use std::env::VarError;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use std::time::Duration;
@@ -161,8 +162,8 @@ fn init_tracing() -> Result<(), eyre::Report> {
             Ok(filter) => (filter, None),
             Err(error) => (build_default_directive(), Some(eyre::Report::new(error))),
         },
-        Err(env::VarError::NotPresent) => (build_default_directive(), None),
-        Err(error @ env::VarError::NotUnicode(_)) => {
+        Err(VarError::NotPresent) => (build_default_directive(), None),
+        Err(error @ VarError::NotUnicode(_)) => {
             (build_default_directive(), Some(eyre::Report::new(error)))
         },
     };
