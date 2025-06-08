@@ -68,7 +68,7 @@ RUN touch ./back-end/src/main.rs
 RUN --mount=type=cache,target=/build/${APPLICATION_NAME}/target \
     --mount=type=cache,id=cargo-git,target=/usr/local/cargo/git/db,sharing=locked \
     --mount=type=cache,id=cargo-registery,target=/usr/local/cargo/registry/,sharing=locked \
-    ./build.sh install --path . --target ${TARGET} --root /output
+    ./build.sh install --path . --locked --target ${TARGET} --root /output
 
 # Front-end (NPM) build
 FROM --platform=${BUILDPLATFORM} node:22.16.0-alpine@sha256:41e4389f3d988d2ed55392df4db1420ad048ae53324a8e2b7c6d19508288107e AS typescript-build
