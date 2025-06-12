@@ -1,5 +1,5 @@
 # Rust toolchain setup
-FROM --platform=${BUILDPLATFORM} rust:1.87.0@sha256:b571d7b2dc7b9154517eeda87c0c3c97865d432e95ec205e34a194fd2baaff1d AS rust-base
+FROM --platform=${BUILDPLATFORM} rust:1.87.0@sha256:d0f16cc551662a283a022b50d33f1a58b113465033656938f1db480f474c5427 AS rust-base
 
 ARG APPLICATION_NAME
 
