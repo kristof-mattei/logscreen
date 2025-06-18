@@ -245,7 +245,7 @@ jobs:
       - name: Upload test results
         uses: EnricoMi/publish-unit-test-result-action@3a74b2957438d0b6e2e61d67b05318aa25c9e6c6 # v2.20.0
         with:
-          check_name: Test results
+          check_name: Test results for Rust
           github_token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             reports/results.xml
