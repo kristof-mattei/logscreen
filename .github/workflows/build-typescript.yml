@@ -1,14 +1,17 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build TypeScript
 
+on:
+  workflow_call:
+
 permissions:
   checks: write
   contents: read
   id-token: write
   pull-requests: write
 
-on:
-  workflow_call:
+env:
+  NPM_CONFIG_FUND: "false"
 
 jobs:
   warm-up-cache:
