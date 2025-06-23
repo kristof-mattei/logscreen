@@ -1,12 +1,1 @@
-allowed-duplicate-crates = [
-    "getrandom",
-    "rand",
-    "rand_chacha",
-    "rand_core",
-    "regex-automata",
-    "regex-syntax",
-    "wasi",
-    "windows-sys",
-    "zerocopy",
-    "zerocopy-derive",
-]
+
