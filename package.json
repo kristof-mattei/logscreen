@@ -78,7 +78,7 @@
     "eslint-plugin-unicorn": "59.0.1",
     "nock": "14.0.5",
     "prettier": "3.6.1",
-    "prettier-plugin-sh": "0.17.4",
+    "prettier-plugin-sh": "0.18.0",
     "sass": "1.89.2",
     "tailwindcss": "4.1.10",
     "typescript": "5.8.3",
