@@ -1,8 +1,9 @@
 import type React from "react";
 import { useMemo, useState } from "react";
 
-import { ErrorBoundary } from "@/components/error-boundary";
-import type { ClientLogMessage } from "@/lib/client-log-message";
+import type { ClientLogMessage } from "../lib/client-log-message.ts";
+
+import { ErrorBoundary } from "./error-boundary.tsx";
 
 interface LogViewerProperties {
     logs: ClientLogMessage[];
