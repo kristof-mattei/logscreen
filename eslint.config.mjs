@@ -65,6 +65,8 @@ const sharedRules = {
         "never",
         {
             json: "always",
+            ts: "ignorePackages",
+            tsx: "always",
         },
     ],
     "import/newline-after-import": ["error"],
@@ -87,7 +89,7 @@ export default tseslint.config(
     {
         ignores: ["dist/**", "reports/**", "coverage/**"],
     },
-    eslintPluginUnicorn.configs["flat/all"],
+    eslintPluginUnicorn.configs["all"],
     {
         languageOptions: {
             ...reactPlugin.configs.flat["jsx-runtime"].languageOptions,
@@ -118,7 +120,7 @@ export default tseslint.config(
                 version: "detect",
             },
         },
-        extends: [eslintPluginUnicorn.configs["flat/recommended"]],
+        extends: [eslintPluginUnicorn.configs["recommended"]],
         rules: {
             ...importPlugin.configs.recommended.rules,
             ...importPlugin.configs.react.rules,
@@ -159,7 +161,7 @@ export default tseslint.config(
         settings: {
             "import/resolver": {
                 node: {
-                    extensions: [".ts"],
+                    extensions: [".ts", ".tsx"],
                 },
                 typescript: {
                     alwaysTryTypes: true,
@@ -173,6 +175,8 @@ export default tseslint.config(
 
             ...sharedRules,
 
+            "no-restricted-imports": ["off"],
+
             "@stylistic/ts/no-extra-semi": ["error"],
 
             "@typescript-eslint/consistent-type-imports": [
@@ -182,7 +186,8 @@ export default tseslint.config(
                     fixStyle: "separate-type-imports",
                     prefer: "type-imports",
                 },
-            ], // different than love
+            ],
+            // different than love
             "@typescript-eslint/prefer-destructuring": ["off"],
             "@typescript-eslint/explicit-member-accessibility": ["error"],
             "@typescript-eslint/explicit-module-boundary-types": ["error"],

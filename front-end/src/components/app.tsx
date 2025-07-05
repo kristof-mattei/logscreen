@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 
 import { io } from "socket.io-client";
 
-import { LogViewer } from "@/components/log-viewer";
-import type { ClientLogMessage } from "@/lib/client-log-message";
-import type { ServerLogMessage } from "@/lib/server-log-message";
+import type { ClientLogMessage } from "../lib/client-log-message.ts";
+import type { ServerLogMessage } from "../lib/server-log-message.ts";
+
+import { LogViewer } from "./log-viewer.tsx";
 
 export const App: React.FC = () => {
     const [logs, setLogs] = useState<ClientLogMessage[]>([]);
