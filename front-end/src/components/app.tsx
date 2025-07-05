@@ -12,7 +12,9 @@ export const App: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     useEffect(() => {
-        const socket = io();
+        const socket = io({
+            transports: ["websocket"],
+        });
 
         function parseAndRenderLog(serverLogMessage: ServerLogMessage): void {
             setLogs((previousLogs: ClientLogMessage[]) => {
