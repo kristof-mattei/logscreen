@@ -66,6 +66,12 @@ export default defineConfig(({ mode }) => {
                     secure: false,
                     ws: true,
                 },
+                "/socket.io": {
+                    target: "http://localhost:3000",
+                    changeOrigin: true,
+                    secure: false,
+                    ws: true,
+                },
             },
         },
         test: {
