@@ -109,9 +109,7 @@ export default tseslint.config(
         },
         settings: {
             "import/resolver": {
-                node: {
-                    extensions: [".d.ts", ".ts"],
-                },
+                node: {},
                 typescript: {
                     alwaysTryTypes: true,
                 },
@@ -160,9 +158,7 @@ export default tseslint.config(
         ],
         settings: {
             "import/resolver": {
-                node: {
-                    extensions: [".ts", ".tsx"],
-                },
+                node: {},
                 typescript: {
                     alwaysTryTypes: true,
                 },
