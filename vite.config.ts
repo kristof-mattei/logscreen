@@ -1,5 +1,3 @@
-import path from "node:path";
-
 import { codecovVitePlugin } from "@codecov/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
@@ -17,7 +15,6 @@ export default defineConfig(({ mode }) => {
 
     const config: UserConfig = {
         appType: "spa",
-
         build: {
             emptyOutDir: true,
             outDir: "../../dist",
@@ -26,12 +23,6 @@ export default defineConfig(({ mode }) => {
             },
             sourcemap: true,
         },
-        resolve: {
-            alias: {
-                "~bootstrap": path.resolve(import.meta.dirname, "node_modules/bootstrap"),
-            },
-        },
-
         plugins: [
             svgr(),
             react(),
@@ -48,7 +39,6 @@ export default defineConfig(({ mode }) => {
             exclude: ["src/entrypoints/index.ts"],
         },
         root: "front-end/src",
-
         server: {
             port: Number.isNaN(port) ? 4000 : port,
             host: true,
