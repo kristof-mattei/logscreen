@@ -1,14 +1,16 @@
+import nodePath from "node:path";
+
 import { codecovVitePlugin } from "@codecov/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import type { UserConfig } from "vite";
 import { loadEnv } from "vite";
 import { checker } from "vite-plugin-checker";
+
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     const environment = loadEnv(mode, process.cwd());
     const port = Number.parseInt(environment["VITE_PORT"] ?? "");
@@ -16,12 +18,19 @@ export default defineConfig(({ mode }) => {
     const config: UserConfig = {
         appType: "spa",
         build: {
+            minify: false,
+            target: "esnext",
             emptyOutDir: true,
+            sourcemap: true,
             outDir: "../../dist",
             rollupOptions: {
                 output: {},
             },
-            sourcemap: true,
+        },
+        resolve: {
+            alias: {
+                "@/": nodePath.resolve("src/"),
+            },
         },
         plugins: [
             svgr(),
@@ -36,7 +45,8 @@ export default defineConfig(({ mode }) => {
             }),
         ],
         optimizeDeps: {
-            exclude: ["src/entrypoints/index.ts"],
+            noDiscovery: true,
+            // exclude: ["src/entrypoints/index.ts"],
         },
         root: "front-end/src",
         server: {
@@ -49,12 +59,6 @@ export default defineConfig(({ mode }) => {
             },
             cors: true,
             proxy: {
-                "/api": {
-                    target: "http://localhost:3000",
-                    changeOrigin: true,
-                    secure: false,
-                    ws: true,
-                },
                 "/socket.io": {
                     target: "http://localhost:3000",
                     changeOrigin: true,
@@ -78,6 +82,7 @@ export default defineConfig(({ mode }) => {
             outputFile: {
                 junit: "../../reports/vitest/test-report.xml",
             },
+            restoreMocks: true,
             setupFiles: ["./test.setup.ts"],
         },
     };

@@ -65,7 +65,6 @@ const sharedRules = {
         "never",
         {
             json: "always",
-            ts: "ignorePackages",
             tsx: "always",
         },
     ],
@@ -186,8 +185,7 @@ export default tseslint.config(
                     fixStyle: "separate-type-imports",
                     prefer: "type-imports",
                 },
-            ],
-            // different than love
+            ], // different than love
             "@typescript-eslint/prefer-destructuring": ["off"],
             "@typescript-eslint/explicit-member-accessibility": ["error"],
             "@typescript-eslint/explicit-module-boundary-types": ["error"],
