@@ -62,9 +62,10 @@ const sharedRules = {
 
     "import/extensions": [
         "error",
-        "never",
+        "ignorePackages",
         {
             json: "always",
+            ts: "always",
             tsx: "always",
         },
     ],
