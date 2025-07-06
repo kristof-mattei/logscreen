@@ -29,6 +29,7 @@ export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBounda
             return (
                 <div className="p-4 bg-red-200 text-red-800">
                     <p>Something is not right in here.</p>
+                    <p>{String(this.state.error)}.</p>
                 </div>
             );
         }
