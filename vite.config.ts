@@ -11,7 +11,7 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig(({ mode }) => {
-    const environment = loadEnv(mode, process.cwd());
+    const environment = loadEnv(mode, process.cwd(), "");
     const port = Number.parseInt(environment["VITE_PORT"] ?? "");
 
     const config: UserConfig = {
@@ -38,9 +38,12 @@ export default defineConfig(({ mode }) => {
             checker({ typescript: true }),
             tailwindcss(),
             codecovVitePlugin({
-                enableBundleAnalysis: environment["CODECOV_TOKEN"] !== undefined,
+                enableBundleAnalysis: environment["GITHUB_ACTIONS"] === "true",
                 bundleName: "logscreen-front-end",
-                uploadToken: environment["CODECOV_TOKEN"] ?? "",
+                oidc: {
+                    useGitHubOIDC: true,
+                },
+                telemetry: false,
             }),
         ],
         optimizeDeps: {

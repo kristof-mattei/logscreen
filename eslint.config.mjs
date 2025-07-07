@@ -11,7 +11,6 @@ import promise from "eslint-plugin-promise";
 import reactPlugin from "eslint-plugin-react";
 import reactHookFormPlugin from "eslint-plugin-react-hook-form";
 import reactRefreshPlugin from "eslint-plugin-react-refresh";
-
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import tseslint from "typescript-eslint";
 
