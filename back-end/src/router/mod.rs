@@ -1,5 +1,3 @@
-#![deny(clippy::unused_async)]
-
 use axum::Router;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
