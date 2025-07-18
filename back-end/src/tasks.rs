@@ -2,9 +2,8 @@ use tokio::sync::mpsc::Sender;
 use tokio_util::sync::CancellationToken;
 use tracing::{Level, event};
 
-#[expect(clippy::needless_pass_by_value)]
-pub(crate) fn monitor_stdin(sender: Sender<String>, token: CancellationToken) {
-    let _guard = token.clone().drop_guard();
+pub(crate) fn monitor_stdin(sender: &Sender<String>, token: CancellationToken) {
+    let _guard = token.drop_guard();
 
     let stdin = std::io::stdin();
 
