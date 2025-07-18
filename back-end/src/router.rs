@@ -1,19 +1,19 @@
 mod api_router;
 mod html_router;
 
+use axum::Router;
+use axum::handler::HandlerWithoutStateExt as _;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::routing::get;
-use axum::{Router, handler::HandlerWithoutStateExt};
 use socketioxide::layer::SocketIoLayer;
 use tower_http::cors::CorsLayer;
 use tower_http::trace::{DefaultOnRequest, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 
-use crate::{
-    router::{api_router::build_api_router, html_router::build_html_router},
-    state::ApplicationState,
-};
+use crate::router::api_router::build_api_router;
+use crate::router::html_router::build_html_router;
+use crate::state::ApplicationState;
 
 async fn handler_404() -> impl IntoResponse {
     (StatusCode::NOT_FOUND, "nothing to see here")
