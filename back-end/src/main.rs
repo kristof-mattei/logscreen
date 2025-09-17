@@ -3,6 +3,7 @@ mod logs;
 mod router;
 mod routes;
 mod server;
+mod span;
 mod state;
 mod states;
 mod tasks;
@@ -157,7 +158,10 @@ async fn start_tasks() -> Result<(), eyre::Report> {
 
 fn build_default_filter() -> EnvFilter {
     EnvFilter::builder()
-        .parse(format!("INFO,{}=TRACE", env!("CARGO_CRATE_NAME")))
+        .parse(format!(
+            "DEBUG,{}=TRACE,tower_http::trace=TRACE",
+            env!("CARGO_CRATE_NAME")
+        ))
         .expect("Default filter should always work")
 }
 
