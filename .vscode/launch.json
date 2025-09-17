@@ -19,7 +19,7 @@
             "cwd": "${workspaceFolder}",
             "env": {
                 "RUST_BACKTRACE": "1",
-                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE"
+                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE,tower_http::trace=TRACE"
             },
             "internalConsoleOptions": "neverOpen",
             "terminal": "integrated"
@@ -44,7 +44,7 @@
             "cwd": "${workspaceFolder}",
             "env": {
                 "RUST_BACKTRACE": "1",
-                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE"
+                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE,tower_http::trace=TRACE"
             },
             "internalConsoleOptions": "neverOpen",
             "terminal": "integrated"
@@ -69,7 +69,7 @@
             "cwd": "${workspaceFolder}",
             "env": {
                 "RUST_BACKTRACE": "1",
-                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE"
+                "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE,tower_http::trace=TRACE"
             },
             "internalConsoleOptions": "neverOpen",
             "terminal": "integrated"
