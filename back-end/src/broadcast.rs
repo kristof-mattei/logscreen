@@ -13,16 +13,13 @@ pub(crate) async fn setup_broadcast(
     token: CancellationToken,
 ) {
     loop {
-        #[expect(clippy::pattern_type_mismatch, reason = "Tokio macro")]
-        let message = {
-            tokio::select! {
-                () = token.cancelled() => {
-                    // The token was cancelled
-                    break;
-                },
-                message = receiver.recv() => {
-                    message
-                }
+        let message = tokio::select! {
+            () = token.cancelled() => {
+                // The token was cancelled
+                break;
+            },
+            message = receiver.recv() => {
+                message
             }
         };
 
