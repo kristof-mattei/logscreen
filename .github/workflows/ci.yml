@@ -558,6 +558,8 @@ jobs:
             sleep 2
           done
 
+          echo "Process exited with: $?"
+
           for new_tag in $(echo "${{ join(steps.meta.outputs.tags, ' ') }}"); do
             echo "Inspecting ${new_tag}:"
             docker buildx imagetools inspect --raw ${new_tag}
