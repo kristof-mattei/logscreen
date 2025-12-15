@@ -253,17 +253,27 @@ jobs:
           flags: back-end
           files: reports/lcov.info
           plugins: ""
+          report_type: "coverage"
           use_oidc: true
 
+<<<<<<< HEAD
       - name: Upload test results to Codecov
         uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+||||||| ba2bacdb
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
+=======
+      - name: Upload test results (to Codecov.io)
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+>>>>>>> upstream/main
         with:
           disable_search: true
-          # doesn't exist here... yet
-          # disable_telem: true
+          disable_telem: true
           fail_ci_if_error: true
           flags: back-end
           files: reports/results.xml
+          plugins: ""
+          report_type: "test_results"
           use_oidc: true
 
       - name: Fail if tests failed
