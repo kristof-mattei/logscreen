@@ -10,6 +10,7 @@ use tracing::{Level, event};
 pub(crate) struct LogsSocket {
     io: SocketIo,
 }
+
 impl LogsSocket {
     pub(crate) fn get_socket(&self) -> SocketIo {
         self.io.clone()
@@ -20,8 +21,8 @@ impl Drop for LogsSocket {
     fn drop(&mut self) {
         let io = self.io.clone();
         tokio::task::spawn(async move {
-            if let Err(err) = io.emit("goodbye", &json!({})).await {
-                event!(Level::ERROR, ?err, "Failed to announce shutting down");
+            if let Err(error) = io.emit("goodbye", &json!({})).await {
+                event!(Level::ERROR, ?error, "Failed to announce shutting down");
             }
         });
     }
