@@ -12,10 +12,10 @@ pub(crate) fn monitor_stdin(sender: &Sender<String>, token: CancellationToken) {
 
         match stdin.read_line(&mut buffer) {
             Ok(_) => {
-                if let Err(err) = sender.blocking_send(buffer.clone()) {
+                if let Err(error) = sender.blocking_send(buffer.clone()) {
                     event!(
                         Level::ERROR,
-                        ?err,
+                        ?error,
                         "Failed to send message to mpsc, stopping..."
                     );
                     break;
@@ -23,8 +23,8 @@ pub(crate) fn monitor_stdin(sender: &Sender<String>, token: CancellationToken) {
 
                 buffer.clear();
             },
-            Err(err) => {
-                event!(Level::ERROR, ?err, "Failure to read from stdin");
+            Err(error) => {
+                event!(Level::ERROR, ?error, "Failure to read from stdin");
                 break;
             },
         }

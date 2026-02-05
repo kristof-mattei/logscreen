@@ -33,8 +33,8 @@ pub(crate) async fn setup_broadcast(
             "message": message
         });
 
-        if let Err(err) = websocket.get_socket().emit("input", &json).await {
-            event!(Level::ERROR, ?err, "Failed to send line");
+        if let Err(error) = websocket.get_socket().emit("input", &json).await {
+            event!(Level::ERROR, ?error, "Failed to send line");
         }
     }
 }
