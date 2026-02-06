@@ -133,7 +133,13 @@ jobs:
           fetch-depth: 0
 
       - name: Install git-cliff to generate changelog & next version number
+<<<<<<< HEAD
         uses: taiki-e/install-action@870266878ed54ea9ceb25502c53e42aa939585a6 # v2.67.22
+||||||| bf96a17a
+        uses: taiki-e/install-action@7c40b3573dcb8b05d44e41e0311df2007b230d2e # v2.67.21
+=======
+        uses: taiki-e/install-action@cd06cfcb315894ee98ffbc4582bcafbcbc260bdb # v2.67.23
+>>>>>>> upstream/main
         with:
           tool: git-cliff
 
@@ -201,7 +207,13 @@ jobs:
           cargo --version
 
       - name: Install cargo-edit to do set-version
+<<<<<<< HEAD
         uses: taiki-e/install-action@870266878ed54ea9ceb25502c53e42aa939585a6 # v2.67.22
+||||||| bf96a17a
+        uses: taiki-e/install-action@7c40b3573dcb8b05d44e41e0311df2007b230d2e # v2.67.21
+=======
+        uses: taiki-e/install-action@cd06cfcb315894ee98ffbc4582bcafbcbc260bdb # v2.67.23
+>>>>>>> upstream/main
         with:
           tool: cargo-edit
 
@@ -266,7 +278,13 @@ jobs:
       - *set_up_toolchain
 
       - name: Install cargo-edit to do set-version
+<<<<<<< HEAD
         uses: taiki-e/install-action@870266878ed54ea9ceb25502c53e42aa939585a6 # v2.67.22
+||||||| bf96a17a
+        uses: taiki-e/install-action@7c40b3573dcb8b05d44e41e0311df2007b230d2e # v2.67.21
+=======
+        uses: taiki-e/install-action@cd06cfcb315894ee98ffbc4582bcafbcbc260bdb # v2.67.23
+>>>>>>> upstream/main
         with:
           tool: cargo-edit
 
