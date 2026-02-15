@@ -24,7 +24,7 @@ console-subscriber = { version = "0.5.0", optional = true }
 http = "1.4.0"
 mimalloc = { version = "0.1.48", features = ["v3"] }
 serde_json = "1.0.149"
-socketioxide = { version = "0.18.1", features = ["tracing"] }
+socketioxide = { version = "0.18.2", features = ["tracing"] }
 tokio = { version = "1.49.0", features = [
     "macros",
     "rt-multi-thread",
