@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import type { ErrorInfo, PropsWithChildren, ReactNode } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type -- Consistency
@@ -9,7 +9,7 @@ interface ErrorBoundaryState {
     error?: unknown;
 }
 
-export class ErrorBoundary extends React.Component<PropsWithChildren<ErrorBoundaryProperties>, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProperties>, ErrorBoundaryState> {
     public constructor(properties: ErrorBoundaryProperties) {
         super(properties);
         this.state = { hasError: false };

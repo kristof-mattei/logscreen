@@ -4,7 +4,7 @@ import commentsPlugin from "@eslint-community/eslint-plugin-eslint-comments";
 import stylistic from "@stylistic/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import love from "eslint-config-love";
-import importPlugin from "eslint-plugin-import";
+import { configs as importPluginConfigs, flatConfigs as importPluginsFlatConfigs } from "eslint-plugin-import-x";
 import nPlugin from "eslint-plugin-n";
 import perfectionist from "eslint-plugin-perfectionist";
 import prettier from "eslint-plugin-prettier/recommended";
@@ -14,7 +14,7 @@ import reactHookFormPlugin from "eslint-plugin-react-hook-form";
 import reactHooksPlugin from "eslint-plugin-react-hooks";
 import reactRefreshPlugin from "eslint-plugin-react-refresh";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
-import tseslint from "typescript-eslint";
+import { configs as tseslintConfigs } from "typescript-eslint";
 
 const sharedRules = {
     "arrow-body-style": ["error", "always"],
@@ -61,7 +61,7 @@ const sharedRules = {
     "unicorn/no-null": ["off"],
     "unicorn/prefer-ternary": ["off"],
 
-    "import/extensions": [
+    "import-x/extensions": [
         "error",
         "ignorePackages",
         {
@@ -70,23 +70,27 @@ const sharedRules = {
             tsx: "always",
         },
     ],
-    "import/newline-after-import": ["error"],
-    "import/no-cycle": ["off"],
-    "import/no-extraneous-dependencies": ["off"],
-    "import/no-relative-packages": ["error"],
-    "import/no-unresolved": ["error"],
-    "import/order": [
+    "import-x/newline-after-import": ["error"],
+    "import-x/no-cycle": ["off"],
+    "import-x/no-extraneous-dependencies": ["off"],
+    "import-x/no-relative-packages": ["error"],
+    "import-x/no-unresolved": ["error"],
+    "import-x/order": [
         "error",
         {
             alphabetize: { caseInsensitive: true, order: "asc" },
             "newlines-between": "always-and-inside-groups",
         },
     ],
-    "import/prefer-default-export": ["off"],
+    "import-x/prefer-default-export": ["off"],
 };
 
 export default defineConfig(
+    prettier,
     js.configs.recommended,
+    importPluginsFlatConfigs.recommended,
+    importPluginsFlatConfigs.typescript,
+
     {
         ignores: ["dist/**", "reports/**", "coverage/**"],
     },
@@ -104,13 +108,12 @@ export default defineConfig(
         },
         ...reactPlugin.configs.flat["jsx-runtime"],
         plugins: {
-            import: importPlugin,
             "react-refresh": reactRefreshPlugin,
             "react-hooks": reactHooksPlugin,
             "react-hook-form": reactHookFormPlugin,
         },
         settings: {
-            "import/resolver": {
+            "import-x/resolver": {
                 node: {},
                 typescript: {
                     alwaysTryTypes: true,
@@ -122,8 +125,8 @@ export default defineConfig(
         },
         extends: [eslintPluginUnicorn.configs["recommended"]],
         rules: {
-            ...importPlugin.configs.recommended.rules,
-            ...importPlugin.configs.react.rules,
+            ...importPluginConfigs.recommended.rules,
+            ...importPluginConfigs.react.rules,
             ...reactHooksPlugin.configs.recommended.rules,
             ...reactHookFormPlugin.configs.recommended.rules,
 
@@ -168,19 +171,18 @@ export default defineConfig(
         },
         plugins: {
             "@stylistic/ts": stylistic,
-            import: importPlugin,
             n: nPlugin,
             "eslint-comments": commentsPlugin,
             promise,
             perfectionist,
         },
         extends: [
-            tseslint.configs.strictTypeChecked,
-            tseslint.configs.recommendedTypeChecked,
-            tseslint.configs.stylisticTypeChecked,
+            tseslintConfigs.strictTypeChecked,
+            tseslintConfigs.recommendedTypeChecked,
+            tseslintConfigs.stylisticTypeChecked,
         ],
         settings: {
-            "import/resolver": {
+            "import-x/resolver": {
                 node: {},
                 typescript: {
                     alwaysTryTypes: true,
@@ -188,9 +190,9 @@ export default defineConfig(
             },
         },
         rules: {
-            ...importPlugin.configs.typescript.rules,
-            ...importPlugin.configs.react.rules,
-            ...importPlugin.configs.recommended.rules,
+            ...importPluginConfigs.typescript.rules,
+            ...importPluginConfigs.react.rules,
+            ...importPluginConfigs.recommended.rules,
 
             ...sharedRules,
 
@@ -248,7 +250,7 @@ export default defineConfig(
 
             "@typescript-eslint/require-await": ["error"],
 
-            "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+            "import-x/consistent-type-specifier-style": ["error", "prefer-top-level"],
 
             "perfectionist/sort-intersection-types": ["error"],
             "perfectionist/sort-union-types": ["error"],
@@ -256,9 +258,8 @@ export default defineConfig(
     },
 
     {
-        extends: [tseslint.configs.disableTypeChecked],
+        extends: [tseslintConfigs.disableTypeChecked],
         files: ["*.mjs"],
         rules: {},
     },
-    prettier,
 );
