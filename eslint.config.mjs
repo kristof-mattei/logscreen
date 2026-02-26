@@ -90,7 +90,6 @@ export default defineConfig(
     js.configs.recommended,
     importPluginsFlatConfigs.recommended,
     importPluginsFlatConfigs.typescript,
-
     {
         ignores: ["dist/**", "reports/**", "coverage/**"],
     },
