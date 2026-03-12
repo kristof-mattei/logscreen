@@ -1,13 +1,13 @@
 import nodePath from "node:path";
 
 import { codecovVitePlugin } from "@codecov/vite-plugin";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import type { UserConfig } from "vite";
 import { loadEnv } from "vite";
 import { checker } from "vite-plugin-checker";
 import svgr from "vite-plugin-svgr";
-import viteTsConfigPaths from "vite-tsconfig-paths";
 import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig(({ mode }) => {
@@ -31,11 +31,14 @@ export default defineConfig(({ mode }) => {
             alias: {
                 "@/": nodePath.resolve("src/"),
             },
+            tsconfigPaths: true,
         },
         plugins: [
             svgr(),
             react(),
-            viteTsConfigPaths(),
+            babel({
+                presets: [reactCompilerPreset()],
+            }),
             checker({ typescript: true }),
             tailwindcss(),
             codecovVitePlugin({
