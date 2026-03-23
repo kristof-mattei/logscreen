@@ -72,7 +72,7 @@
         "prettier-plugin-toml": "2.0.6",
         "react-compiler-runtime": "1.0.0",
         "tailwindcss": "4.2.2",
-        "typescript": "6.0.1-rc",
+        "typescript": "6.0.2",
         "typescript-eslint": "8.57.1",
         "vite": "8.0.2",
         "vite-plugin-checker": "0.12.0",
