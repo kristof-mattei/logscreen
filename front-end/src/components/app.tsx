@@ -10,7 +10,7 @@ import { LogViewer } from "./log-viewer";
 
 export const App: React.FC = () => {
     const [logs, setLogs] = useState<ClientLogMessage[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const socket = io({
