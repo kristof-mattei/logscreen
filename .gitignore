@@ -6,6 +6,7 @@
 /node_modules
 /reports
 /target
+/tsconfig.tsbuildinfo
 
 # emitted per-crate
 profiling/
@@ -14,4 +15,3 @@ profiling/
 /profile.json
 
 .env
-tsconfig.tsbuildinfo
