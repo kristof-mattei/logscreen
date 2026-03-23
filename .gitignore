@@ -1,4 +1,6 @@
 # only in root
+/.local
+/.pnpm-store
 /coverage
 /dist
 /node_modules

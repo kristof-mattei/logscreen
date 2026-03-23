@@ -13,4 +13,5 @@
 !/pnpm-workspace.yaml
 !/tailwind.config.mjs
 !/tsconfig.json
+!/version-bump.patch
 !/vite.config.ts
