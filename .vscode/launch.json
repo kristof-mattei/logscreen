@@ -20,12 +20,27 @@
             "terminal": "integrated"
         },
         {
+            "name": "Debug executable 'logscreen' without RUST_LOG",
+            "type": "lldb",
+            "request": "launch",
+            "cargo": {
+                "args": ["run", "--bin=logscreen"]
+            },
+            "args": [],
+            "env": {
+                "RUST_BACKTRACE": "1"
+            },
+            "internalConsoleOptions": "neverOpen",
+            "terminal": "integrated"
+        },
+        {
             "name": "Debug unit tests in executable 'logscreen'",
             "type": "lldb",
             "request": "launch",
             "cargo": {
-                "args": ["test", "--bin=logscreen"]
+                "args": ["test", "--no-run", "--bin=logscreen"]
             },
+            "args": [],
             "env": {
                 "RUST_BACKTRACE": "1",
                 "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE,tower_http::trace=TRACE"
@@ -38,8 +53,9 @@
             "type": "lldb",
             "request": "launch",
             "cargo": {
-                "args": ["test", "--test=integration_tests"]
+                "args": ["test", "--no-run", "--test=integration_tests"]
             },
+            "args": [],
             "env": {
                 "RUST_BACKTRACE": "1",
                 "RUST_LOG": "DEBUG,socketioxide=INFO,engineioxide=INFO,logscreen=TRACE,tower_http::trace=TRACE"

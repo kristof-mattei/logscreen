@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 
-import { App } from "@/components/app.tsx";
+import { App } from "../components/app";
 
 const container = document.querySelector("#root");
 
