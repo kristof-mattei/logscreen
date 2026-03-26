@@ -48,8 +48,8 @@
         "@types/react-dom": "19.2.3",
         "@typescript-eslint/parser": "8.57.2",
         "@vitejs/plugin-react": "6.0.1",
-        "@vitest/coverage-v8": "4.1.1",
-        "@vitest/ui": "4.1.1",
+        "@vitest/coverage-v8": "4.1.2",
+        "@vitest/ui": "4.1.2",
         "babel-plugin-react-compiler": "1.0.0",
         "dependency-cruiser": "17.3.9",
         "eslint": "10.1.0",
@@ -78,7 +78,7 @@
         "vite-plugin-checker": "0.12.0",
         "vite-plugin-svgr": "4.5.0",
         "vite-tsconfig-paths": "6.1.1",
-        "vitest": "4.1.1"
+        "vitest": "4.1.2"
     },
     "pnpm": {
         "overrides": {
