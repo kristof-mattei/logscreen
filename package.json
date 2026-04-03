@@ -83,7 +83,7 @@
     "pnpm": {
         "overrides": {
             "@codecov-plugin/vite>vite": "8.0.3",
-            "undici": "8.0.0"
+            "undici": "8.0.1"
         }
     }
 }
