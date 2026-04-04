@@ -11,7 +11,7 @@ import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 const configFunction: ViteUserConfigFn = defineConfig(({ mode }) => {
     const environment = loadEnv(mode, process.cwd(), "");
-    const port = Number.parseInt(environment["VITE_PORT"] ?? "");
+    const port = Number.parseInt(environment["VITE_PORT"] ?? "", 10);
 
     const config: UserConfig = {
         appType: "spa",
@@ -48,7 +48,7 @@ const configFunction: ViteUserConfigFn = defineConfig(({ mode }) => {
         ],
         optimizeDeps: {
             noDiscovery: true,
-            // exclude: ["src/entrypoints/index.ts"],
+            include: [],
         },
         root: "front-end/src",
         server: {

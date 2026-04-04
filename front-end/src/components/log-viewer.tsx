@@ -78,6 +78,9 @@ export const LogViewer: React.FC<LogViewerProperties> = ({ logs: rawLogs, search
                                         .writeText(JSON.stringify(selectedLog.message, null, 2))
                                         .then(() => {
                                             alert("Copied to clipboard!");
+
+                                            // eslint-disable-next-line no-useless-return -- inside promise
+                                            return;
                                         })
                                         .catch((error: unknown) => {
                                             console.error(error);
