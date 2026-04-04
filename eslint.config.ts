@@ -1,10 +1,13 @@
+import { fixupConfigRules } from "@eslint/compat";
+
 import { defineConfig, globalIgnores } from "@eslint/config-helpers";
+import type { RulesConfig } from "@eslint/core";
 import js from "@eslint/js";
 import commentsPlugin from "@eslint-community/eslint-plugin-eslint-comments";
 import stylistic from "@stylistic/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import love from "eslint-config-love";
-import { configs as importPluginConfigs, flatConfigs as importPluginsFlatConfigs } from "eslint-plugin-import-x";
+import { flatConfigs as importPluginsFlatConfigs } from "eslint-plugin-import-x";
 import nPlugin from "eslint-plugin-n";
 import perfectionist from "eslint-plugin-perfectionist";
 import prettier from "eslint-plugin-prettier/recommended";
@@ -16,7 +19,7 @@ import reactRefreshPlugin from "eslint-plugin-react-refresh";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import { configs as tseslintConfigs } from "typescript-eslint";
 
-const sharedRules = {
+const sharedRules: RulesConfig = {
     "arrow-body-style": ["error", "always"],
     complexity: ["off"],
     curly: ["error", "all"],
@@ -87,7 +90,7 @@ const sharedRules = {
     "import-x/prefer-default-export": ["off"],
 };
 
-export default defineConfig(
+const config: ReturnType<typeof defineConfig> = defineConfig(
     prettier,
     globalIgnores([".local/*"]),
     js.configs.recommended,
@@ -96,10 +99,9 @@ export default defineConfig(
     {
         ignores: ["dist/**", "reports/**", "coverage/**"],
     },
-    eslintPluginUnicorn.configs["all"],
+    eslintPluginUnicorn.configs.all,
     {
         languageOptions: {
-            ...reactPlugin.configs.flat["jsx-runtime"].languageOptions,
             parser: tsParser,
             parserOptions: {
                 ecmaVersion: "latest",
@@ -108,12 +110,7 @@ export default defineConfig(
                 tsconfigRootDir: import.meta.dirname,
             },
         },
-        ...reactPlugin.configs.flat["jsx-runtime"],
-        plugins: {
-            "react-refresh": reactRefreshPlugin,
-            "react-hooks": reactHooksPlugin,
-            "react-hook-form": reactHookFormPlugin,
-        },
+        plugins: {},
         settings: {
             "import-x/resolver": {
                 node: {},
@@ -125,13 +122,19 @@ export default defineConfig(
                 version: "detect",
             },
         },
-        extends: [eslintPluginUnicorn.configs["recommended"]],
+        extends: [
+            eslintPluginUnicorn.configs.recommended,
+            reactPlugin.configs.flat["jsx-runtime"] ?? {},
+            reactRefreshPlugin.configs.vite,
+            fixupConfigRules(reactHooksPlugin.configs.flat.recommended),
+            {
+                plugins: {
+                    "react-hook-form": reactHookFormPlugin,
+                },
+                rules: reactHookFormPlugin.configs.recommended.rules,
+            },
+        ],
         rules: {
-            ...importPluginConfigs.recommended.rules,
-            ...importPluginConfigs.react.rules,
-            ...reactHooksPlugin.configs.recommended.rules,
-            ...reactHookFormPlugin.configs.recommended.rules,
-
             // Core hooks rules
             "react-hooks/rules-of-hooks": "error",
             "react-hooks/exhaustive-deps": "warn",
@@ -159,7 +162,6 @@ export default defineConfig(
         },
     },
     {
-        ...love,
         files: ["**/*.ts", "**/*.tsx"],
         ignores: ["**/*.mjs"],
         languageOptions: {
@@ -175,13 +177,14 @@ export default defineConfig(
             "@stylistic/ts": stylistic,
             n: nPlugin,
             "eslint-comments": commentsPlugin,
-            promise,
             perfectionist,
         },
         extends: [
+            [love],
             tseslintConfigs.strictTypeChecked,
-            tseslintConfigs.recommendedTypeChecked,
             tseslintConfigs.stylisticTypeChecked,
+            promise.configs["flat/recommended"],
+            importPluginsFlatConfigs.react,
         ],
         settings: {
             "import-x/resolver": {
@@ -192,10 +195,6 @@ export default defineConfig(
             },
         },
         rules: {
-            ...importPluginConfigs.typescript.rules,
-            ...importPluginConfigs.react.rules,
-            ...importPluginConfigs.recommended.rules,
-
             ...sharedRules,
 
             "no-restricted-imports": ["off"],
@@ -265,3 +264,5 @@ export default defineConfig(
         rules: {},
     },
 );
+
+export default config;

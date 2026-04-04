@@ -1,7 +1,9 @@
 // This app doesn't correctly refresh
 import { promisify } from "node:util";
 
-const sleep = promisify(setTimeout);
+const sleep = promisify((v: number, callback: () => void) => {
+    setTimeout(callback, v);
+});
 
 class App {
     private running = true;
@@ -20,6 +22,7 @@ class App {
         while (this.running) {
             console.log(new Date().toISOString());
 
+            // eslint-disable-next-line no-await-in-loop -- testing code
             await sleep(1000);
         }
     }

@@ -1,6 +1,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 
+import type { Socket } from "socket.io-client";
 import { io } from "socket.io-client";
 
 import type { ClientLogMessage } from "../lib/client-log-message";
@@ -13,7 +14,7 @@ export const App: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
-        const socket = io({
+        const socket: Socket = io({
             transports: ["websocket"],
         });
 
