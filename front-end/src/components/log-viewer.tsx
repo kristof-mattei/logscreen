@@ -74,19 +74,16 @@ export const LogViewer: React.FC<LogViewerProperties> = ({ logs: rawLogs, search
                             <button
                                 className="bg-blue-500 text-white py-2 px-4 ml-2"
                                 onClick={() => {
-                                    navigator.clipboard
-                                        .writeText(JSON.stringify(selectedLog.message, null, 2))
-                                        .then(() => {
+                                    void (async () => {
+                                        try {
+                                            await navigator.clipboard.writeText(
+                                                JSON.stringify(selectedLog.message, null, 2),
+                                            );
                                             alert("Copied to clipboard!");
-
-                                            // eslint-disable-next-line no-useless-return -- inside promise
-                                            return;
-                                        })
-                                        .catch((error: unknown) => {
-                                            console.error(error);
-
+                                        } catch {
                                             alert("Failure to copy to clipboard, check console for error.");
-                                        });
+                                        }
+                                    })();
                                 }}
                             >
                                 Copy
