@@ -41,7 +41,7 @@
         "@eslint/config-helpers": "0.5.5",
         "@eslint/core": "1.2.1",
         "@eslint/js": "10.0.1",
-        "@rolldown/plugin-babel": "0.2.2",
+        "@rolldown/plugin-babel": "0.2.3",
         "@stylistic/eslint-plugin": "5.10.0",
         "@tailwindcss/vite": "4.2.2",
         "@types/babel__core": "7.20.5",
