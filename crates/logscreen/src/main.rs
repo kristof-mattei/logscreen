@@ -165,7 +165,7 @@ async fn start_tasks() -> Result<(), eyre::Report> {
 
     // wait for the task that holds the server to exit gracefully
     // it listens to shutdown_send
-    if timeout(Duration::from_millis(10000), tasks.wait())
+    if timeout(Duration::from_secs(10), tasks.wait())
         .await
         .is_err()
     {
