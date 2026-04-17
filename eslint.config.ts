@@ -1,5 +1,3 @@
-import { fixupConfigRules } from "@eslint/compat";
-
 import { defineConfig, globalIgnores } from "@eslint/config-helpers";
 import type { RulesConfig } from "@eslint/core";
 import js from "@eslint/js";
@@ -126,7 +124,7 @@ const config: ReturnType<typeof defineConfig> = defineConfig(
             eslintPluginUnicorn.configs.recommended,
             reactPlugin.configs.flat["jsx-runtime"] ?? {},
             reactRefreshPlugin.configs.vite,
-            fixupConfigRules(reactHooksPlugin.configs.flat.recommended),
+            reactHooksPlugin.configs.flat["recommended-latest"],
             {
                 plugins: {
                     "react-hook-form": reactHookFormPlugin,
@@ -142,7 +140,6 @@ const config: ReturnType<typeof defineConfig> = defineConfig(
             // React Compiler rules
             "react-hooks/config": "error",
             "react-hooks/error-boundaries": "error",
-            "react-hooks/component-hook-factories": "error",
             "react-hooks/gating": "error",
             "react-hooks/globals": "error",
             "react-hooks/immutability": "error",
