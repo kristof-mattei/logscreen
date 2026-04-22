@@ -21,7 +21,7 @@ axum = { version = "0.8.9", features = ["macros"] }
 color-eyre = "0.6.5"
 console-subscriber = { version = "0.5.0", optional = true }
 http = "1.4.0"
-mimalloc = "0.1.49"
+mimalloc = "0.1.50"
 serde_json = "1.0.149"
 socketioxide = { version = "0.18.3", features = ["tracing"] }
 tokio = { version = "1.52.1", features = [
