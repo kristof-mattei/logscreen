@@ -8,7 +8,8 @@ use axum::response::IntoResponse;
 use axum::routing::get;
 use socketioxide::layer::SocketIoLayer;
 use tower_http::cors::CorsLayer;
-use tower_http::trace::{DefaultOnRequest, DefaultOnResponse, TraceLayer};
+use tower_http::on_early_drop::{EarlyDropsAsFailures, OnEarlyDropLayer};
+use tower_http::trace::{DefaultOnFailure, DefaultOnRequest, DefaultOnResponse, TraceLayer};
 use tracing::Level;
 
 use crate::router::api_router::build_api_router;
@@ -44,4 +45,7 @@ pub fn build_router(state: ApplicationState, websocket_layer: SocketIoLayer) -> 
                 .on_request(DefaultOnRequest::new().level(Level::TRACE))
                 .on_response(DefaultOnResponse::new().level(Level::INFO)),
         )
+        .layer(OnEarlyDropLayer::new(EarlyDropsAsFailures::new(
+            DefaultOnFailure::default(),
+        )))
 }
