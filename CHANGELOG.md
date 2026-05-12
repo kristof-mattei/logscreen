@@ -1,4 +1,47 @@
 <!-- header goes here -->
+## [0.1.0](https://github.com/kristof-mattei/logscreen/compare/v0.0.1..v0.1.0) - 2026-05-12
+
+### 🚀 Features
+
+- Checkbox to allow for auto-merging a release PR by [@kristof-mattei](https://github.com/kristof-mattei) ([`8b67c89`](https://github.com/kristof-mattei/logscreen/commit/8b67c89b30a8d6b3d4822110734fa4497caabe28))
+
+### 🐛 Bug Fixes
+
+- *(deps)* Update rust crate tokio to 1.51.1 by [@renovate[bot]](https://github.com/renovate[bot]) ([`b131a07`](https://github.com/kristof-mattei/logscreen/commit/b131a07ff19fc821167245ec4b403e06a978a59d))
+- *(deps)* Update react monorepo to v19.2.5 by [@renovate[bot]](https://github.com/renovate[bot]) ([`def4f24`](https://github.com/kristof-mattei/logscreen/commit/def4f24f2e1becbc2a36bac17a00f8e6bc3663f6))
+- *(deps)* Update rust crate socketioxide to 0.18.3 by [@renovate[bot]](https://github.com/renovate[bot]) ([`5c2cb09`](https://github.com/kristof-mattei/logscreen/commit/5c2cb09f2097510a00a6f986ae4e6926f03467df))
+- *(deps)* Update rust crate axum to 0.8.9 by [@renovate[bot]](https://github.com/renovate[bot]) ([`2b0c525`](https://github.com/kristof-mattei/logscreen/commit/2b0c525822464059266a215ce56a2a8d212ed9b9))
+- *(deps)* Update rust crate tokio to 1.52.0 by [@renovate[bot]](https://github.com/renovate[bot]) ([`9e82b47`](https://github.com/kristof-mattei/logscreen/commit/9e82b4709e9adcc661548ee26c8e4758b42ffe7f))
+- *(deps)* Update rust crate tokio to 1.52.1 by [@renovate[bot]](https://github.com/renovate[bot]) ([`820b9cf`](https://github.com/kristof-mattei/logscreen/commit/820b9cfd9ddda1d3db96fd42a62a34e747f27de9))
+- *(deps)* Update rust crate mimalloc to 0.1.49 by [@renovate[bot]](https://github.com/renovate[bot]) ([`3795617`](https://github.com/kristof-mattei/logscreen/commit/37956179741ee023e238d456d987697b8171ab45))
+- *(deps)* `mimalloc` by default now is v3, removing flag by [@kristof-mattei](https://github.com/kristof-mattei) ([`9eca904`](https://github.com/kristof-mattei/logscreen/commit/9eca9040b87ee466bae0330c89300d64ff7fec04))
+- *(deps)* `mimalloc` by default now is v3, removing flag by [@kristof-mattei](https://github.com/kristof-mattei) ([`c0fdb8a`](https://github.com/kristof-mattei/logscreen/commit/c0fdb8aa5fae0dd08bcfb2441388bd458dd23a0c))
+- *(deps)* Update rust crate mimalloc to 0.1.50 by [@renovate[bot]](https://github.com/renovate[bot]) ([`f19e4de`](https://github.com/kristof-mattei/logscreen/commit/f19e4de62052a7ada5f744a91238502ca5f32005))
+- *(deps)* Update rust crate mimalloc to 0.1.50 by [@renovate[bot]](https://github.com/renovate[bot]) ([`f488e9c`](https://github.com/kristof-mattei/logscreen/commit/f488e9c023782304221631029603e77be7779648))
+- *(deps)* Update rust crate tower-proxy to 0.9.0 by [@renovate[bot]](https://github.com/renovate[bot]) ([`af22cb2`](https://github.com/kristof-mattei/logscreen/commit/af22cb2b4d08d316f71822d028bf2224c95ca56b))
+- *(deps)* Update rust crate tokio to 1.52.2 by [@renovate[bot]](https://github.com/renovate[bot]) ([`17e557f`](https://github.com/kristof-mattei/logscreen/commit/17e557fc50a709e0c6876603ad7a7331ba022430))
+- *(deps)* Update react monorepo to v19.2.6 by [@renovate[bot]](https://github.com/renovate[bot]) ([`ab65d18`](https://github.com/kristof-mattei/logscreen/commit/ab65d1887d5468301a3209afe4260e0a36d54a40))
+- *(deps)* Update rust crate tower-http to 0.6.10 by [@renovate[bot]](https://github.com/renovate[bot]) ([`b2c02e5`](https://github.com/kristof-mattei/logscreen/commit/b2c02e5cebd1a0969163857edbe1d3b2fa164846))
+- *(deps)* Update rust crate tokio to 1.52.3 by [@renovate[bot]](https://github.com/renovate[bot]) ([`213cc91`](https://github.com/kristof-mattei/logscreen/commit/213cc918646bd75894edc541caccffdd4d3ca6c3))
+- Disable plugins by [@kristof-mattei](https://github.com/kristof-mattei) ([`3725751`](https://github.com/kristof-mattei/logscreen/commit/37257510cce405e0426a57c6e76ec53d73454c91))
+- Lint rule gone by [@kristof-mattei](https://github.com/kristof-mattei) ([`8cbe1c8`](https://github.com/kristof-mattei/logscreen/commit/8cbe1c84dec1334543bd0621894c128461f6dd5e))
+- ConfigError: Config (unnamed): Key "plugins": Cannot redefine plugin "n". by [@kristof-mattei](https://github.com/kristof-mattei) ([`cde7293`](https://github.com/kristof-mattei/logscreen/commit/cde72938b62c2de1572713bbec9761b2814deed1))
+- Add on-early-drop handler by [@kristof-mattei](https://github.com/kristof-mattei) ([`463be5a`](https://github.com/kristof-mattei/logscreen/commit/463be5ac101d85ab6e41b11db05bb07a8f42e7d2))
+- Broken update by [@kristof-mattei](https://github.com/kristof-mattei) ([`67f6d8f`](https://github.com/kristof-mattei/logscreen/commit/67f6d8fe9cac4458114574d9cc2ec478daeaaa96))
+- Eslint rules correction by [@kristof-mattei](https://github.com/kristof-mattei) ([`504706f`](https://github.com/kristof-mattei/logscreen/commit/504706f432a8fb2dc71fa10685245e48f139b87b))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Restore ability to do prerelease versions by [@kristof-mattei](https://github.com/kristof-mattei) ([`7c5b0ea`](https://github.com/kristof-mattei/logscreen/commit/7c5b0ea895c5e92aa3c69fec62e3a7156f2ca183))
+- *(ci)* Allow re-release pre-release without having to add features by [@kristof-mattei](https://github.com/kristof-mattei) ([`657a7db`](https://github.com/kristof-mattei/logscreen/commit/657a7db145169f1dd3cd17b587324fae32ec4d04))
+- *(release)* Link in release proposal now points to sha as tag doesn't exist yet by [@kristof-mattei](https://github.com/kristof-mattei) ([`f2bcfc8`](https://github.com/kristof-mattei/logscreen/commit/f2bcfc8ed61488c9863b26533432becd6e7267df))
+- Use $vite to make sure the same version is used by [@kristof-mattei](https://github.com/kristof-mattei) ([`b550c72`](https://github.com/kristof-mattei/logscreen/commit/b550c720323f795b4631038091aec8fe71468914))
+- Update Cargo.lock to align socketoxide deps by [@kristof-mattei](https://github.com/kristof-mattei) ([`605c1e5`](https://github.com/kristof-mattei/logscreen/commit/605c1e5af7933f26a4b032340d0c8f778ee3c786))
+- From secs by [@kristof-mattei](https://github.com/kristof-mattei) ([`9f93bad`](https://github.com/kristof-mattei/logscreen/commit/9f93baddab4b4bee5791454ebd8220d86ddeabb4))
+- Axum-proxy is deprecated by [@kristof-mattei](https://github.com/kristof-mattei) ([`6aad6da`](https://github.com/kristof-mattei/logscreen/commit/6aad6da05bcd1f846bb72ea259d9b65372c67e08))
+- Remove `--offline`, it just doesn't work, don't know why by [@kristof-mattei](https://github.com/kristof-mattei) ([`a00e504`](https://github.com/kristof-mattei/logscreen/commit/a00e50483b7b91c864ed33b39f75068c4472e292))
+- Move to keep track by [@kristof-mattei](https://github.com/kristof-mattei) ([`b504077`](https://github.com/kristof-mattei/logscreen/commit/b5040779570e510134bda82c5c6482a3a4e85f90))
+- Restore by [@kristof-mattei](https://github.com/kristof-mattei) ([`694f99a`](https://github.com/kristof-mattei/logscreen/commit/694f99af9b03a6c161feb3e3f7c6dd503168a6c1))
 ## [0.0.1] - 2026-04-05
 
 ### 🚀 Features
@@ -761,7 +804,7 @@
 - *(fmt)* Fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`f7b0a11`](https://github.com/kristof-mattei/logscreen/commit/f7b0a1189c2e2b834199e2fc876b95aa63c8a246))
 - *(release)* Release v1.5.0 ([`5504d10`](https://github.com/kristof-mattei/logscreen/commit/5504d10df91b765fac320a1ae903bc761017728c))
 - *(release)* Release 0.0.1 ([`a075d2d`](https://github.com/kristof-mattei/logscreen/commit/a075d2d69cd0202de3d42c8a888ca14b49e0051f))
-- *(release)* Release v0.0.1
+- *(release)* Release v0.0.1 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`16c60cc`](https://github.com/kristof-mattei/logscreen/commit/16c60cc92a15640f5f8bb9e31c37777f7ce9ff48))
 - *(version)* V1.2.0 by [@invalid-email-address](https://github.com/invalid-email-address) ([`1dbbec6`](https://github.com/kristof-mattei/logscreen/commit/1dbbec608864c5cb559a90d8904996011daef52c))
 - *(version)* V1.3.0 by [@invalid-email-address](https://github.com/invalid-email-address) ([`bee1b83`](https://github.com/kristof-mattei/logscreen/commit/bee1b83e6cfe1afd6286073fc1bb38787c0ba48e))
 - *(version)* V1.3.1 by [@invalid-email-address](https://github.com/invalid-email-address) ([`096c422`](https://github.com/kristof-mattei/logscreen/commit/096c4229799cecace867a1de699a7f65eefe59bb))
